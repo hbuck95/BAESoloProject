@@ -42,7 +42,7 @@ public class Champion {
 		private int health;
 		private int damage;
 
-		private ChampionBuilder() {
+		public ChampionBuilder() {
 
 		}
 
