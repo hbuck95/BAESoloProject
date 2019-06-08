@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.bae.persistence.domain.Champion;
+import com.bae.persistence.domain.Role;
 import com.bae.util.JSONUtil;
 
 public class ChampionTest {
@@ -20,8 +21,6 @@ public class ChampionTest {
 		championA = new Champion.ChampionBuilder()
 				.id(1)
 				.name("Ymir")
-				.pantheon(1)
-				.damageType(1)
 				.health(510)
 				.damage(38)
 				.build();
@@ -29,13 +28,11 @@ public class ChampionTest {
 		championB = new Champion.ChampionBuilder()
 				.id(2)
 				.name("Neith")
-				.pantheon(2)
-				.damageType(2)
 				.health(435)
 				.damage(38)
 				.build();
 
-		championAJson = "{\"id\":1,\"name\":\"Ymir\",\"pantheonId\":1,\"damageType\":1,\"health\":510,\"damage\":38}";
+		championAJson = "{\"id\":1,\"name\":\"Ymir\",\"health\":510,\"damage\":38}";
 	}
 
 	@Test
@@ -57,14 +54,14 @@ public class ChampionTest {
 		Champion Neith = new Champion.ChampionBuilder()
 				.id(2)
 				.name("Neith")
-				.pantheon(2)
-				.damageType(2)
 				.health(435)
 				.damage(38)
 				.build();
 
-		assertEquals(Champion.class, Neith.getClass());
-		assertEquals(championB.getName(), Neith.getName());
+		assertEquals(2, Neith.getId());
+		assertEquals("Neith", Neith.getName());
+		assertEquals(435, Neith.getHealth());
+		assertEquals(38, Neith.getDamage());
 	}
 
 }

@@ -29,12 +29,11 @@ public class PantheonTest {
 				.id(1)
 				.name("Ymir")
 				.pantheon(pantheonA)
-				.damageType(1)
 				.health(510)
 				.damage(38)
 				.build();
 
-		championAJson = "{\"id\":1,\"name\":\"Ymir\",\"pantheon\":{\"id\":1,\"name\":\"Norse\"},\"damageType\":1,\"health\":510,\"damage\":38}";
+		championAJson = "{\"id\":1,\"name\":\"Ymir\",\"pantheon\":{\"id\":1,\"name\":\"Norse\"},\"health\":510,\"damage\":38}";
 		pantheonAJson = "{\"id\":1,\"name\":\"Norse\"}";
 	}
 
@@ -66,6 +65,17 @@ public class PantheonTest {
 		assertEquals("Norse", championFromJson.getPantheon().getName());
 		assertEquals(1, championFromJson.getPantheon().getId());
 		assertEquals("Ymir", championFromJson.getName());
+	}
+	
+	@Test
+	public void testPantheonBuilder() {
+		Pantheon pantheon = new Pantheon.Builder()
+				.id(2)
+				.name("Egyptian")
+				.build();
+		
+		assertEquals(2, pantheon.getId());
+		assertEquals("Egyptian", pantheon.getName());
 	}
 
 }

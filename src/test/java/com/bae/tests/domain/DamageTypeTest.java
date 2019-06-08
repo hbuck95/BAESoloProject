@@ -67,5 +67,16 @@ public class DamageTypeTest {
 		assertEquals(1, championFromJson.getDamageType().getId());
 		assertEquals("Ymir", championFromJson.getName());
 	}
+	
+	@Test
+	public void testDamageTypeBuilder() {
+		DamageType damageType = new DamageType.Builder()
+				.id(2)
+				.name("Physical")
+				.build();
+		
+		assertEquals(2, damageType.getId());
+		assertEquals("Physical", damageType.getName());
+	}
 
 }

@@ -34,6 +34,16 @@ public class GameModeTest {
 		GameMode gameModeFromJson = json.getObjectForJSON(gameModeAJson, GameMode.class);
 		assertEquals("Conquest", gameModeFromJson.getName());
 		assertEquals(1, gameModeFromJson.getId());
-
+	}
+	
+	@Test
+	public void testGameModeBuilder() {
+		GameMode gameMode = new GameMode.Builder()
+				.id(2)
+				.name("Joust")
+				.build();
+		
+		assertEquals(2, gameMode.getId());
+		assertEquals("Joust", gameMode.getName());
 	}
 }
