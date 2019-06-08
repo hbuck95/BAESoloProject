@@ -1,20 +1,28 @@
 package com.bae.persistence.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Champion {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "champion_id")
 	private int id;
 
-	@Column(length = 15)
+	@Column(length = 15, name = "champion_name")
 	private String name;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "role_id")
+	private Role role;
 
 	// TODO: Update with a @ManyToOne with the pantheon entity when implemented
 	private int pantheonId;
@@ -37,6 +45,7 @@ public class Champion {
 	public static class ChampionBuilder {
 		private int id;
 		private String name;
+		private Role role;
 		private int pantheonId;
 		private int damageType;
 		private int health;
@@ -53,6 +62,11 @@ public class Champion {
 
 		public ChampionBuilder name(String name) {
 			this.name = name;
+			return this;
+		}
+
+		public ChampionBuilder role(Role championRole) {
+			this.role = championRole;
 			return this;
 		}
 
