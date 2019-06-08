@@ -18,14 +18,14 @@ public class ChampionTest {
 	@Before
 	public void setup() {
 		json = new JSONUtil();
-		championA = new Champion.ChampionBuilder()
+		championA = new Champion.Builder()
 				.id(1)
 				.name("Ymir")
 				.health(510)
 				.damage(38)
 				.build();
 
-		championB = new Champion.ChampionBuilder()
+		championB = new Champion.Builder()
 				.id(2)
 				.name("Neith")
 				.health(435)
@@ -51,7 +51,7 @@ public class ChampionTest {
 
 	@Test
 	public void TestChampionBuilder() {
-		Champion Neith = new Champion.ChampionBuilder()
+		Champion Neith = new Champion.Builder()
 				.id(2)
 				.name("Neith")
 				.health(435)

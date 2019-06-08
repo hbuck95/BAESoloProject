@@ -26,10 +26,6 @@ public class Pantheon {
 		private int id;
 		private String name;
 
-		public Builder() {
-
-		}
-
 		public Builder id(int id) {
 			this.id = id;
 			return this;

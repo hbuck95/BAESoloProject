@@ -17,7 +17,6 @@ public class DamageType {
 	@Column(length = 8, name = "damagetype_name")
 	private String name;
 
-	// Default constructor for JSONUtil to implement
 	public DamageType() {
 
 	}
@@ -25,10 +24,6 @@ public class DamageType {
 	public static class Builder {
 		private int id;
 		private String name;
-
-		public Builder() {
-
-		}
 
 		public Builder id(int id) {
 			this.id = id;

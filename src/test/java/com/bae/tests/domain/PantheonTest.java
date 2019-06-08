@@ -25,7 +25,7 @@ public class PantheonTest {
 				.name("Norse")
 				.build();
 		
-		championA = new Champion.ChampionBuilder()
+		championA = new Champion.Builder()
 				.id(1)
 				.name("Ymir")
 				.pantheon(pantheonA)

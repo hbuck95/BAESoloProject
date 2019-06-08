@@ -23,7 +23,7 @@ public class ChampionGameModeStatsTest {
 	public void setup() {
 		json = new JSONUtil();
 
-		championA = new Champion.ChampionBuilder()
+		championA = new Champion.Builder()
 				.id(1)
 				.name("Ymir")
 				.pantheon(new Pantheon.Builder()

@@ -25,7 +25,7 @@ public class RoleTest {
 				.name("Guardian")
 				.build();
 
-		championA = new Champion.ChampionBuilder()
+		championA = new Champion.Builder()
 				.id(1)
 				.name("Ymir")
 				.role(roleA)

@@ -24,11 +24,13 @@ public class Champion {
 	@JoinColumn(name = "role_id")
 	private Role role;
 
-	// TODO: Update with a @ManyToOne with the pantheon entity when implemented
-	private int pantheonId;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pantheon_id")
+	private Pantheon pantheon;
 
-	// TODO: Update with a @ManyToOne with the damagetype entity when implemented
-	private int damageType;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "damagetype_id")
+	private DamageType damageType;
 
 	@Column(length = 3)
 	private int health;
@@ -42,50 +44,46 @@ public class Champion {
 	}
 
 	// Builder class for creating Character objects for testing
-	public static class ChampionBuilder {
+	public static class Builder {
 		private int id;
 		private String name;
 		private Role role;
-		private int pantheonId;
-		private int damageType;
+		private Pantheon pantheon;
+		private DamageType damageType;
 		private int health;
 		private int damage;
 
-		public ChampionBuilder() {
-
-		}
-
-		public ChampionBuilder id(int id) {
+		public Builder id(int id) {
 			this.id = id;
 			return this;
 		}
 
-		public ChampionBuilder name(String name) {
+		public Builder name(String name) {
 			this.name = name;
 			return this;
 		}
 
-		public ChampionBuilder role(Role championRole) {
-			this.role = championRole;
+		public Builder role(Role role) {
+			this.role = role;
 			return this;
 		}
 
-		public ChampionBuilder pantheon(int pantheonId) {
-			this.pantheonId = pantheonId;
+		public Builder pantheon(Pantheon pantheon) {
+			this.pantheon = pantheon;
 			return this;
 		}
 
-		public ChampionBuilder damageType(int damageType) {
+		public Builder damageType(DamageType damageType) {
 			this.damageType = damageType;
 			return this;
 		}
 
-		public ChampionBuilder health(int health) {
+		public Builder health(int health) {
 			this.health = health;
 			return this;
 		}
 
-		public ChampionBuilder damage(int damage) {
+		public Builder damage(int damage) {
 			this.damage = damage;
 			return this;
 		}
@@ -94,7 +92,8 @@ public class Champion {
 			Champion champion = new Champion();
 			champion.id = this.id;
 			champion.name = this.name;
-			champion.pantheonId = this.pantheonId;
+			champion.role = this.role;
+			champion.pantheon = this.pantheon;
 			champion.damageType = this.damageType;
 			champion.health = this.health;
 			champion.damage = this.damage;
@@ -117,30 +116,44 @@ public class Champion {
 	}
 
 	/**
-	 * @return the pantheonId
+	 * @return the role
 	 */
-	public int getPantheonId() {
-		return pantheonId;
+	public Role getRole() {
+		return role;
 	}
 
 	/**
-	 * @param pantheonId the pantheonId to set
+	 * @param role the role to set
 	 */
-	public void setPantheonId(int pantheonId) {
-		this.pantheonId = pantheonId;
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	/**
+	 * @return the pantheonId
+	 */
+	public Pantheon getPantheon() {
+		return pantheon;
+	}
+
+	/**
+	 * @param pantheon the pantheonId to set
+	 */
+	public void setPantheon(Pantheon pantheon) {
+		this.pantheon = pantheon;
 	}
 
 	/**
 	 * @return the damageType
 	 */
-	public int getDamageType() {
+	public DamageType getDamageType() {
 		return damageType;
 	}
 
 	/**
 	 * @param damageType the damageType to set
 	 */
-	public void setDamageType(int damageType) {
+	public void setDamageType(DamageType damageType) {
 		this.damageType = damageType;
 	}
 

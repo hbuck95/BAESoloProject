@@ -25,7 +25,7 @@ public class DamageTypeTest {
 				.name("Magical")
 				.build();
 
-		championA = new Champion.ChampionBuilder()
+		championA = new Champion.Builder()
 				.id(1)
 				.name("Ymir")
 				.damageType(damageTypeA)

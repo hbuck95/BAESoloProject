@@ -47,10 +47,6 @@ public class ChampionGameModeStats {
 		private double pickRate;
 		private double banRate;
 
-		public Builder() {
-
-		}
-
 		public Builder id(int id) {
 			this.id = id;
 			return this;
