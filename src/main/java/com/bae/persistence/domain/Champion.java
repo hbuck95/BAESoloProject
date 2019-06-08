@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Character {
+public class Champion {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +29,12 @@ public class Character {
 	private int damage;
 
 	// Default constructor for JSONUtil to implement
-	public Character() {
+	public Champion() {
 
 	}
 
 	// Builder class for creating Character objects for testing
-	public static class CharacterBuilder {
+	public static class ChampionBuilder {
 		private int id;
 		private String name;
 		private int pantheonId;
@@ -42,49 +42,49 @@ public class Character {
 		private int health;
 		private int damage;
 
-		private CharacterBuilder() {
+		private ChampionBuilder() {
 
 		}
 
-		public CharacterBuilder id(int id) {
+		public ChampionBuilder id(int id) {
 			this.id = id;
 			return this;
 		}
 
-		public CharacterBuilder name(String name) {
+		public ChampionBuilder name(String name) {
 			this.name = name;
 			return this;
 		}
 
-		public CharacterBuilder pantheon(int pantheonId) {
+		public ChampionBuilder pantheon(int pantheonId) {
 			this.pantheonId = pantheonId;
 			return this;
 		}
 
-		public CharacterBuilder damageType(int damageType) {
+		public ChampionBuilder damageType(int damageType) {
 			this.damageType = damageType;
 			return this;
 		}
 
-		public CharacterBuilder health(int health) {
+		public ChampionBuilder health(int health) {
 			this.health = health;
 			return this;
 		}
 
-		public CharacterBuilder damage(int damage) {
+		public ChampionBuilder damage(int damage) {
 			this.damage = damage;
 			return this;
 		}
 
-		public Character build() {
-			Character character = new Character();
-			character.id = this.id;
-			character.name = this.name;
-			character.pantheonId = this.pantheonId;
-			character.damageType = this.damageType;
-			character.health = this.health;
-			character.damage = this.damage;
-			return character;
+		public Champion build() {
+			Champion champion = new Champion();
+			champion.id = this.id;
+			champion.name = this.name;
+			champion.pantheonId = this.pantheonId;
+			champion.damageType = this.damageType;
+			champion.health = this.health;
+			champion.damage = this.damage;
+			return champion;
 		}
 	}
 
