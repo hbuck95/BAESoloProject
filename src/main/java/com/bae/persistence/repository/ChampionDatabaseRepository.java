@@ -31,7 +31,7 @@ public class ChampionDatabaseRepository implements ChampionRepository {
 
 	@Override
 	public String getAllChampions() {
-		TypedQuery<Champion> query = entityManager.createQuery("SELECT a FROM Account a", Champion.class);
+		TypedQuery<Champion> query = entityManager.createQuery("SELECT c FROM Champion c", Champion.class);
 		Collection<Champion> accounts = query.getResultList();
 		return util.getJSONForObject(accounts);
 	}
