@@ -1,5 +1,7 @@
 package com.bae.persistence.repository;
 
+import static com.bae.util.Constants.CREATE_GAMEMODE_SUCCESS;
+import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 import java.util.Collection;
@@ -32,9 +34,11 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String createGameMode(String gameMode) {
-		// TODO Auto-generated method stub
-		return null;
+		GameMode mode = util.getObjectForJSON(gameMode, GameMode.class);
+		entityManager.persist(mode);
+		return CREATE_GAMEMODE_SUCCESS;
 	}
 
 	@Override
