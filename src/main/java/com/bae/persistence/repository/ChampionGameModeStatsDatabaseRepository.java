@@ -8,6 +8,7 @@ import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -88,8 +89,14 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 
 	@Override
 	public String findChampionGameModeStats(String championName, int gameModeId) {
-		// TODO Auto-generated method stub
-		return null;
+		String queryString = String.format(
+				"SELECT cgms FROM CHAMPIONGAMEMODESTATS cgms WHERE cgms.CHAMPION_ID  in (SELECT c.CHAMPION_ID from CHAMPION c WHERE c.CHAMPION_NAME = '%s') AND cgms.GAMEMODE_ID = %s",
+				championName, gameModeId);
+
+		TypedQuery<ChampionGameModeStats> query = entityManager.createQuery(queryString, ChampionGameModeStats.class);
+		Collection<ChampionGameModeStats> championGameModeStats = query.getResultList().stream()
+				.filter(x -> x.getGameMode().getId() == gameModeId).collect(Collectors.toList());
+		return util.getJSONForObject((ChampionGameModeStats) championGameModeStats);
 	}
 
 	private boolean checkGameModeStatsExist(int id) {
