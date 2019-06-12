@@ -57,7 +57,7 @@ public class RoleDatabaseRepository implements RoleRepository {
 	public String updateRole(int id, String role) {
 		Role updatedRole = util.getObjectForJSON(role, Role.class);
 
-		if (!checkGameModeExists(id)) {
+		if (!checkRoleExists(id)) {
 			return ROLE_NOT_FOUND;
 		}
 
@@ -67,16 +67,18 @@ public class RoleDatabaseRepository implements RoleRepository {
 
 	@Override
 	public String findRole(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!checkRoleExists(id)) {
+			return ROLE_NOT_FOUND;
+		}
+
+		return util.getJSONForObject((Role) entityManager.find(Role.class, id));
 	}
 
-	private boolean checkGameModeExists(int id) {
+	private boolean checkRoleExists(int id) {
 		// Execute a query rather than using entityManager.find/.contains to improve
 		// performance by not having to retrieve records from the database.
 
-		return (long) entityManager
-				.createQuery(String.format("SELECT COUNT(g) FROM GameMode g WHERE g.gamemode_id = '%s'", id))
+		return (long) entityManager.createQuery(String.format("SELECT COUNT(r) FROM Role r WHERE r.role_id = '%s'", id))
 				.getSingleResult() == 1;
 
 	}
