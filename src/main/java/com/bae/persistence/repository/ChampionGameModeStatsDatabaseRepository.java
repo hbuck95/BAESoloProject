@@ -2,12 +2,16 @@ package com.bae.persistence.repository;
 
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
+import java.util.Collection;
+
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import com.bae.persistence.domain.ChampionGameModeStats;
 import com.bae.util.JSONUtil;
 
 @Transactional(SUPPORTS)
@@ -22,8 +26,10 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 
 	@Override
 	public String getAllChampionGameModeStats() {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<ChampionGameModeStats> query = entityManager.createQuery("SELECT gms FROM ChampionGameModeStats gms",
+				ChampionGameModeStats.class);
+		Collection<ChampionGameModeStats> championGameModeStats = query.getResultList();
+		return util.getJSONForObject(championGameModeStats);
 	}
 
 	@Override
