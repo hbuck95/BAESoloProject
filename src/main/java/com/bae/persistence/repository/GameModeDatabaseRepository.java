@@ -2,6 +2,8 @@ package com.bae.persistence.repository;
 
 import static com.bae.util.Constants.CREATE_GAMEMODE_SUCCESS;
 import static com.bae.util.Constants.DELETE_GAMEMODE_SUCCESS;
+import static com.bae.util.Constants.GAMEMODE_NOT_FOUND;
+import static com.bae.util.Constants.UPDATE_GAMEMODE_SUCCESS;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
@@ -51,8 +53,14 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 
 	@Override
 	public String updateGameMode(int id, String gameMode) {
-		// TODO Auto-generated method stub
-		return null;
+		GameMode updatedMode = util.getObjectForJSON(gameMode, GameMode.class);
+
+		if (!checkGameModeExists(id)) {
+			return GAMEMODE_NOT_FOUND;
+		}
+
+		entityManager.merge(updatedMode);
+		return UPDATE_GAMEMODE_SUCCESS;
 	}
 
 	@Override

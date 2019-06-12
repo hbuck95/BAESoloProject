@@ -15,5 +15,6 @@ public final class Constants {
 	
 	public static final String CREATE_GAMEMODE_SUCCESS = "{\"message\": \"Game mode successfully created!\"}";
 	public static final String DELETE_GAMEMODE_SUCCESS = "{\"message\": \"The specified game mode has successfully been deleted\"}";
-
+	public static final String UPDATE_GAMEMODE_SUCCESS = "{\"message\": \"The specified game mode has successfuly been updated\"}";
+	public static final String GAMEMODE_NOT_FOUND = "{\"message\": \"A game mode with the specified ID could not be found\"}";
 }
