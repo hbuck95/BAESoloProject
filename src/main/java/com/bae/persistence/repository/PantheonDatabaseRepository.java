@@ -67,8 +67,11 @@ public class PantheonDatabaseRepository implements PantheonRepository {
 
 	@Override
 	public String findPantheon(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!checkPantheonExists(id)) {
+			return PANTHEON_NOT_FOUND;
+		}
+
+		return util.getJSONForObject((Pantheon) entityManager.find(Pantheon.class, id));
 	}
 
 	private boolean checkPantheonExists(int id) {
