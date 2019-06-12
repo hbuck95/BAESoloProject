@@ -28,4 +28,6 @@ public final class Constants {
 	public static final String UPDATE_ROLE_SUCCESS = "{\"message\": \"The specified role has successfuly been updated\"}";
 	public static final String ROLE_NOT_FOUND = "{\"message\": \"A role with the specified ID could not be found\"}";
 
+	public static final String CREATE_STATS_SUCCESS = "{\"message\": \"New stats successfully added!\"}";
+
 }

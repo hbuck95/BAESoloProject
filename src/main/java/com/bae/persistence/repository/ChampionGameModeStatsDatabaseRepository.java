@@ -1,5 +1,7 @@
 package com.bae.persistence.repository;
 
+import static com.bae.util.Constants.CREATE_STATS_SUCCESS;
+import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 import java.util.Collection;
@@ -33,9 +35,11 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 	}
 
 	@Override
-	public String createChampionGameModeStats(String gameMode) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional(REQUIRED)
+	public String createChampionGameModeStats(String championGameModeStats) {
+		ChampionGameModeStats newStats = util.getObjectForJSON(championGameModeStats, ChampionGameModeStats.class);
+		entityManager.persist(newStats);
+		return CREATE_STATS_SUCCESS;
 	}
 
 	@Override
