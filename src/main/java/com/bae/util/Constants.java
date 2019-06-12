@@ -14,5 +14,6 @@ public final class Constants {
 	public static final String CHAMPION_NOT_FOUND = "{\"message\": \"A champion with the specified ID could not be found\"}";
 	
 	public static final String CREATE_GAMEMODE_SUCCESS = "{\"message\": \"Game mode successfully created!\"}";
+	public static final String DELETE_GAMEMODE_SUCCESS = "{\"message\": \"The specified game mode has successfully been deleted\"}";
 
 }

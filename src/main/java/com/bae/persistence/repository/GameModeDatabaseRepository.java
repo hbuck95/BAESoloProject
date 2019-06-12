@@ -1,6 +1,7 @@
 package com.bae.persistence.repository;
 
 import static com.bae.util.Constants.CREATE_GAMEMODE_SUCCESS;
+import static com.bae.util.Constants.DELETE_GAMEMODE_SUCCESS;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
@@ -43,8 +44,9 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 
 	@Override
 	public String deleteGameMode(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		GameMode mode = entityManager.find(GameMode.class, id);
+		entityManager.remove(mode);
+		return DELETE_GAMEMODE_SUCCESS;
 	}
 
 	@Override
