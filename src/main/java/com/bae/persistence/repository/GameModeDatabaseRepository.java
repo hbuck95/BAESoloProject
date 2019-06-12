@@ -45,6 +45,7 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String deleteGameMode(int id) {
 		GameMode mode = entityManager.find(GameMode.class, id);
 		entityManager.remove(mode);
@@ -52,6 +53,7 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String updateGameMode(int id, String gameMode) {
 		GameMode updatedMode = util.getObjectForJSON(gameMode, GameMode.class);
 
