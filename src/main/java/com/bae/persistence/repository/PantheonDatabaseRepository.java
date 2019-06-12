@@ -1,5 +1,6 @@
 package com.bae.persistence.repository;
 
+import static com.bae.util.Constants.CREATE_PANTHEON_SUCCESS;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
@@ -35,8 +36,9 @@ public class PantheonDatabaseRepository implements PantheonRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String createPantheon(String pantheon) {
-		// TODO Auto-generated method stub
-		return null;
+		Pantheon newPantheon = util.getObjectForJSON(pantheon, Pantheon.class);
+		entityManager.persist(newPantheon);
+		return CREATE_PANTHEON_SUCCESS;
 	}
 
 	@Override
