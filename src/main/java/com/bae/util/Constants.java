@@ -19,5 +19,5 @@ public final class Constants {
 	public static final String GAMEMODE_NOT_FOUND = "{\"message\": \"A game mode with the specified ID could not be found\"}";
 
 	public static final String CREATE_PANTHEON_SUCCESS = "{\"message\": \"Pantheon successfully created!\"}";
-
+	public static final String DELETE_PANTHEON_SUCCESS = "{\"message\": \"The specified pantheon has successfully been deleted\"}";
 }

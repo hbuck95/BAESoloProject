@@ -1,6 +1,7 @@
 package com.bae.persistence.repository;
 
 import static com.bae.util.Constants.CREATE_PANTHEON_SUCCESS;
+import static com.bae.util.Constants.DELETE_PANTHEON_SUCCESS;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
@@ -44,8 +45,9 @@ public class PantheonDatabaseRepository implements PantheonRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String deletePantheon(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Pantheon pantheon = entityManager.find(Pantheon.class, id);
+		entityManager.remove(pantheon);
+		return DELETE_PANTHEON_SUCCESS;
 	}
 
 	@Override
