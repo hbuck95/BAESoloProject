@@ -1,6 +1,7 @@
 package com.bae.persistence.repository;
 
 import static com.bae.util.Constants.CREATE_ROLE_SUCCESS;
+import static com.bae.util.Constants.DELETE_ROLE_SUCCESS;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
@@ -42,9 +43,11 @@ public class RoleDatabaseRepository implements RoleRepository {
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String deleteRole(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Role role = entityManager.find(Role.class, id);
+		entityManager.remove(role);
+		return DELETE_ROLE_SUCCESS;
 	}
 
 	@Override

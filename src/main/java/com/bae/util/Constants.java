@@ -24,5 +24,6 @@ public final class Constants {
 	public static final String PANTHEON_NOT_FOUND = "{\"message\": \"A pantheon with the specified ID could not be found\"}";
 
 	public static final String CREATE_ROLE_SUCCESS = "{\"message\": \"Role successfully created!\"}";
+	public static final String DELETE_ROLE_SUCCESS = "{\"message\": \"The specified role has successfully been deleted\"}";
 
 }
