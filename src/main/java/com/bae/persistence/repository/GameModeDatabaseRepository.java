@@ -65,8 +65,11 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 
 	@Override
 	public String findGameMode(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!checkGameModeExists(id)) {
+			return GAMEMODE_NOT_FOUND;
+		}
+
+		return util.getJSONForObject((GameMode) entityManager.find(GameMode.class, id));
 	}
 
 	private boolean checkGameModeExists(int id) {
