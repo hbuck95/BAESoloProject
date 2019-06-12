@@ -2,6 +2,8 @@ package com.bae.persistence.repository;
 
 import static com.bae.util.Constants.CREATE_STATS_SUCCESS;
 import static com.bae.util.Constants.DELETE_STATS_SUCCESS;
+import static com.bae.util.Constants.STATS_NOT_FOUND;
+import static com.bae.util.Constants.UPDATE_STATS_SUCCESS;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
@@ -53,9 +55,15 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 
 	@Override
 	@Transactional(REQUIRED)
-	public String updateChampionGameModeStats(int id, String gameMode) {
-		// TODO Auto-generated method stub
-		return null;
+	public String updateChampionGameModeStats(int id, String championGameModeStats) {
+		ChampionGameModeStats updatedMode = util.getObjectForJSON(championGameModeStats, ChampionGameModeStats.class);
+
+		if (!checkGameModeStatsExist(id)) {
+			return STATS_NOT_FOUND;
+		}
+
+		entityManager.merge(updatedMode);
+		return UPDATE_STATS_SUCCESS;
 	}
 
 	@Override

@@ -30,5 +30,7 @@ public final class Constants {
 
 	public static final String CREATE_STATS_SUCCESS = "{\"message\": \"New stats successfully added!\"}";
 	public static final String DELETE_STATS_SUCCESS = "{\"message\": \"The specified stats have successfully been deleted\"}";
+	public static final String UPDATE_STATS_SUCCESS = "{\"message\": \"The specified stats have  successfuly been updated\"}";
+	public static final String STATS_NOT_FOUND = "{\"message\": \"The stats with the specified ID could not be found\"}";
 
 }
