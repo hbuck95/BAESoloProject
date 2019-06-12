@@ -1,5 +1,7 @@
 package com.bae.persistence.repository;
 
+import static com.bae.util.Constants.CREATE_ROLE_SUCCESS;
+import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 import java.util.Collection;
@@ -32,9 +34,11 @@ public class RoleDatabaseRepository implements RoleRepository {
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String createRole(String role) {
-		// TODO Auto-generated method stub
-		return null;
+		Role newRole = util.getObjectForJSON(role, Role.class);
+		entityManager.persist(newRole);
+		return CREATE_ROLE_SUCCESS;
 	}
 
 	@Override

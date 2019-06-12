@@ -22,4 +22,7 @@ public final class Constants {
 	public static final String DELETE_PANTHEON_SUCCESS = "{\"message\": \"The specified pantheon has successfully been deleted\"}";
 	public static final String UPDATE_PANTHEON_SUCCESS = "{\"message\": \"The specified pantheon has successfuly been updated\"}";
 	public static final String PANTHEON_NOT_FOUND = "{\"message\": \"A pantheon with the specified ID could not be found\"}";
+
+	public static final String CREATE_ROLE_SUCCESS = "{\"message\": \"Role successfully created!\"}";
+
 }
