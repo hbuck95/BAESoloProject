@@ -1,6 +1,7 @@
 package com.bae.persistence.repository;
 
 import static com.bae.util.Constants.CREATE_STATS_SUCCESS;
+import static com.bae.util.Constants.DELETE_STATS_SUCCESS;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
@@ -44,8 +45,9 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 
 	@Override
 	public String deleteChampionGameModeStats(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		ChampionGameModeStats stats = entityManager.find(ChampionGameModeStats.class, id);
+		entityManager.remove(stats);
+		return DELETE_STATS_SUCCESS;
 	}
 
 	@Override

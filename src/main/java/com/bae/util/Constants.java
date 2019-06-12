@@ -29,5 +29,6 @@ public final class Constants {
 	public static final String ROLE_NOT_FOUND = "{\"message\": \"A role with the specified ID could not be found\"}";
 
 	public static final String CREATE_STATS_SUCCESS = "{\"message\": \"New stats successfully added!\"}";
+	public static final String DELETE_STATS_SUCCESS = "{\"message\": \"The specified stats have successfully been deleted\"}";
 
 }
