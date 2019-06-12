@@ -1,5 +1,7 @@
 package com.bae.persistence.repository;
 
+import static com.bae.util.Constants.CREATE_DAMAGETYPE_SUCCESS;
+import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 import java.util.Collection;
@@ -32,9 +34,11 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String createDamageType(String damageType) {
-		// TODO Auto-generated method stub
-		return null;
+		DamageType newDamageType = util.getObjectForJSON(damageType, DamageType.class);
+		entityManager.persist(newDamageType);
+		return CREATE_DAMAGETYPE_SUCCESS;
 	}
 
 	@Override
