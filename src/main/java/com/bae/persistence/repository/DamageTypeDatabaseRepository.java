@@ -67,8 +67,11 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 
 	@Override
 	public String findDamageType(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!checkDamageTypeExists(id)) {
+			return DAMAGETYPE_NOT_FOUND;
+		}
+
+		return util.getJSONForObject((DamageType) entityManager.find(DamageType.class, id));
 	}
 
 	private boolean checkDamageTypeExists(int id) {
