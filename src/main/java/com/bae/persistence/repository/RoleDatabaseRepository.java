@@ -51,8 +51,8 @@ public class RoleDatabaseRepository implements RoleRepository {
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String updateRole(int id, String role) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -60,6 +60,16 @@ public class RoleDatabaseRepository implements RoleRepository {
 	public String findRole(int id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private boolean checkGameModeExists(int id) {
+		// Execute a query rather than using entityManager.find/.contains to improve
+		// performance by not having to retrieve records from the database.
+
+		return (long) entityManager
+				.createQuery(String.format("SELECT COUNT(g) FROM GameMode g WHERE g.gamemode_id = '%s'", id))
+				.getSingleResult() == 1;
+
 	}
 
 }
