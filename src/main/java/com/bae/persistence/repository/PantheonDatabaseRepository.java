@@ -3,12 +3,16 @@ package com.bae.persistence.repository;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
+import java.util.Collection;
+
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import com.bae.persistence.domain.Pantheon;
 import com.bae.util.JSONUtil;
 
 @Transactional(SUPPORTS)
@@ -23,8 +27,9 @@ public class PantheonDatabaseRepository implements PantheonRepository {
 
 	@Override
 	public String getAllPantheons() {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Pantheon> query = entityManager.createQuery("SELECT p FROM Pantheon p", Pantheon.class);
+		Collection<Pantheon> pantheons = query.getResultList();
+		return util.getJSONForObject(pantheons);
 	}
 
 	@Override
