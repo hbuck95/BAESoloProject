@@ -75,7 +75,10 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 	private boolean checkGameModeExists(int id) {
 		// Execute a query rather than using entityManager.find/.contains to improve
 		// performance by not having to retrieve records from the database.
-		return (long) entityManager.createQuery("SELECT COUNT(g) FROM GameMode g WHERE c.gamemode_id = id").getSingleResult() == 1;
+
+		return (long) entityManager
+				.createQuery(String.format("SELECT COUNT(g) FROM GameMode g WHERE g.gamemode_id = '%s'", id))
+				.getSingleResult() == 1;
 
 	}
 

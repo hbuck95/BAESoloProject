@@ -77,9 +77,9 @@ public class ChampionDatabaseRepository implements ChampionRepository {
 	private boolean checkChampionExists(int id) {
 		// Execute a query rather than using entityManager.find/.contains to improve
 		// performance by not having to retrieve records from the database.
-		long results = (long) entityManager.createQuery("SELECT COUNT(c) FROM Champion c WHERE c.champion_id = id")
+		long results = (long) entityManager
+				.createQuery(String.format("SELECT COUNT(c) FROM Champion c WHERE c.champion_id = '%s'", id))
 				.getSingleResult();
-
 		return results == 1;
 	}
 
