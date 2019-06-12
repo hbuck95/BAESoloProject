@@ -44,6 +44,7 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String deleteChampionGameModeStats(int id) {
 		ChampionGameModeStats stats = entityManager.find(ChampionGameModeStats.class, id);
 		entityManager.remove(stats);
@@ -51,6 +52,7 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String updateChampionGameModeStats(int id, String gameMode) {
 		// TODO Auto-generated method stub
 		return null;
@@ -72,6 +74,16 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 	public String findChampionGameModeStats(String championName, int gameModeId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private boolean checkGameModeStatsExist(int id) {
+		// Execute a query rather than using entityManager.find/.contains to improve
+		// performance by not having to retrieve records from the database.
+
+		return (long) entityManager.createQuery(String.format(
+				"SELECT COUNT(cgms) FROM ChampionGameModeStats cgms WHERE cgms.championgamemodestats_id = '%s'", id))
+				.getSingleResult() == 1;
+
 	}
 
 }
