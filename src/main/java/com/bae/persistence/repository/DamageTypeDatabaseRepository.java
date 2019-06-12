@@ -1,6 +1,7 @@
 package com.bae.persistence.repository;
 
 import static com.bae.util.Constants.CREATE_DAMAGETYPE_SUCCESS;
+import static com.bae.util.Constants.DELETE_DAMAGETYPE_SUCCESS;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
@@ -42,9 +43,11 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String deleteDamageType(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		DamageType damageType = entityManager.find(DamageType.class, id);
+		entityManager.remove(damageType);
+		return DELETE_DAMAGETYPE_SUCCESS;
 	}
 
 	@Override
