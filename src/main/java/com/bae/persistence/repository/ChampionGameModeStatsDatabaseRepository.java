@@ -67,9 +67,12 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 	}
 
 	@Override
-	public String findChampionGameModeStats(int gameModeId) {
-		// TODO Auto-generated method stub
-		return null;
+	public String findChampionGameModeStats(int id) {
+		if (!checkGameModeStatsExist(id)) {
+			return STATS_NOT_FOUND;
+		}
+
+		return util.getJSONForObject((ChampionGameModeStats) entityManager.find(ChampionGameModeStats.class, id));
 	}
 
 	@Override
