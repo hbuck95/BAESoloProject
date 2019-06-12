@@ -51,8 +51,8 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 	}
 
 	@Override
+	@Transactional(REQUIRED)
 	public String updateDamageType(int id, String damageType) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -60,6 +60,16 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 	public String findDamageType(int id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private boolean checkDamageTypeExists(int id) {
+		// Execute a query rather than using entityManager.find/.contains to improve
+		// performance by not having to retrieve records from the database.
+
+		return (long) entityManager
+				.createQuery(String.format("SELECT COUNT(dt) FROM DAMAGETYPE dt WHERE dt.damagetype_id = '%s'", id))
+				.getSingleResult() == 1;
+
 	}
 
 }
