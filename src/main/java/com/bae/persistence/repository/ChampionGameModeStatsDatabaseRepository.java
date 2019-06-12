@@ -77,8 +77,13 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 
 	@Override
 	public String findChampionGameModeStats(String championName) {
-		// TODO Auto-generated method stub
-		return null;
+		String queryString = String.format(
+				"SELECT cgms FROM CHAMPIONGAMEMODESTATS cgms WHERE cgms.CHAMPION_ID  in (SELECT c.CHAMPION_ID from CHAMPION c WHERE c.CHAMPION_NAME = '%s')",
+				championName);
+
+		TypedQuery<ChampionGameModeStats> query = entityManager.createQuery(queryString, ChampionGameModeStats.class);
+		Collection<ChampionGameModeStats> championGameModeStats = query.getResultList();
+		return util.getJSONForObject((ChampionGameModeStats) championGameModeStats);
 	}
 
 	@Override
