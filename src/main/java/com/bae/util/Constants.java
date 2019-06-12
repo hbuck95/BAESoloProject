@@ -25,5 +25,7 @@ public final class Constants {
 
 	public static final String CREATE_ROLE_SUCCESS = "{\"message\": \"Role successfully created!\"}";
 	public static final String DELETE_ROLE_SUCCESS = "{\"message\": \"The specified role has successfully been deleted\"}";
+	public static final String UPDATE_ROLE_SUCCESS = "{\"message\": \"The specified role has successfuly been updated\"}";
+	public static final String ROLE_NOT_FOUND = "{\"message\": \"A role with the specified ID could not be found\"}";
 
 }

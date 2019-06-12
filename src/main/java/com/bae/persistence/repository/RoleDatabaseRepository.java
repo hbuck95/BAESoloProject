@@ -2,6 +2,8 @@ package com.bae.persistence.repository;
 
 import static com.bae.util.Constants.CREATE_ROLE_SUCCESS;
 import static com.bae.util.Constants.DELETE_ROLE_SUCCESS;
+import static com.bae.util.Constants.ROLE_NOT_FOUND;
+import static com.bae.util.Constants.UPDATE_ROLE_SUCCESS;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
@@ -53,7 +55,14 @@ public class RoleDatabaseRepository implements RoleRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String updateRole(int id, String role) {
-		return null;
+		Role updatedRole = util.getObjectForJSON(role, Role.class);
+
+		if (!checkGameModeExists(id)) {
+			return ROLE_NOT_FOUND;
+		}
+
+		entityManager.merge(updatedRole);
+		return UPDATE_ROLE_SUCCESS;
 	}
 
 	@Override
