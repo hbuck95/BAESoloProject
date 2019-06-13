@@ -11,8 +11,7 @@ public class ChampionGameModeStatsServiceImpl implements ChampionGameModeStatsSe
 
 	@Override
 	public String getAllChampionGameModeStats() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.getAllChampionGameModeStats();
 	}
 
 	@Override
