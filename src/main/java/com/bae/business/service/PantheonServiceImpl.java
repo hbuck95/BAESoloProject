@@ -1,11 +1,17 @@
 package com.bae.business.service;
 
+import javax.inject.Inject;
+
+import com.bae.persistence.repository.PantheonRepository;
+
 public class PantheonServiceImpl implements PantheonService {
+
+	@Inject
+	private PantheonRepository repo;
 
 	@Override
 	public String getAllPantheons() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.getAllPantheons();
 	}
 
 	@Override
