@@ -31,8 +31,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public String findRole(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findRole(id);
 	}
 
 }
