@@ -26,8 +26,7 @@ public class ChampionServiceImpl implements ChampionService {
 
 	@Override
 	public String updateChampion(int id, String champion) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.updateChampion(id, champion);
 	}
 
 	@Override
