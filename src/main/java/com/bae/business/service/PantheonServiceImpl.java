@@ -31,8 +31,7 @@ public class PantheonServiceImpl implements PantheonService {
 
 	@Override
 	public String findPantheon(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findPantheon(id);
 	}
 
 }
