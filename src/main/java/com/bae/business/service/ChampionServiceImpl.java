@@ -31,8 +31,7 @@ public class ChampionServiceImpl implements ChampionService {
 
 	@Override
 	public String findChampion(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findChampion(id);
 	}
 
 }
