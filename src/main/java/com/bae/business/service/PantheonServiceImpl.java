@@ -26,8 +26,7 @@ public class PantheonServiceImpl implements PantheonService {
 
 	@Override
 	public String updatePantheon(int id, String pantheon) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.updatePantheon(id, pantheon);
 	}
 
 	@Override
