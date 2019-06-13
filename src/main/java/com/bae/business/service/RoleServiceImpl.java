@@ -11,8 +11,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public String getAllRoles() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.getAllRoles();
 	}
 
 	@Override
