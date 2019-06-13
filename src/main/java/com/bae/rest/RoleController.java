@@ -1,6 +1,7 @@
 package com.bae.rest;
 
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -34,6 +35,13 @@ public class RoleController {
 	@Produces({ "application/json" })
 	public String createRole(String role) {
 		return service.createRole(role);
+	}
+
+	@Path("/deleteRole/{roleId}")
+	@DELETE
+	@Produces({ "application/json" })
+	public String deleteRole(@PathParam("roleId") int id) {
+		return service.deleteRole(id);
 	}
 
 	public void setService(RoleService service) {
