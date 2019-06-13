@@ -24,31 +24,31 @@ public class ChampionController {
 		return service.getAllChampions();
 	}
 
-	@Path("/getChampion/{championid}")
+	@Path("/getChampion/{championId}")
 	@GET
 	@Produces({ "application/json" })
-	String findChampion(@PathParam("championid") int id) {
-		return service.findChampion(id);
+	public String findChampion(@PathParam("championId") int championId) {
+		return service.findChampion(championId);
 	}
 
 	@Path("/createChampion")
 	@POST
 	@Produces({ "application/json" })
-	String createChampion(String champion) {
+	public String createChampion(String champion) {
 		return service.createChampion(champion);
 	}
 
 	@Path("/deleteChampion/{championid}")
 	@DELETE
 	@Produces({ "application/json" })
-	String deleteChampion(@PathParam("championid") int id) {
+	public String deleteChampion(@PathParam("championid") int id) {
 		return service.deleteChampion(id);
 	}
 
-	@Path("/updateAccount/{championid}")
+	@Path("/updateChampion/{championid}")
 	@PUT
 	@Produces({ "application/json" })
-	String updateChampion(@PathParam("championid") int id, String champion) {
+	public String updateChampion(@PathParam("championid") int id, String champion) {
 		return service.updateChampion(id, champion);
 	}
 
