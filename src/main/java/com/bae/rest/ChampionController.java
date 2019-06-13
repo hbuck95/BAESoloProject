@@ -2,6 +2,7 @@ package com.bae.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -26,6 +27,13 @@ public class ChampionController {
 	@Produces({ "application/json" })
 	String findChampion(@PathParam("championid") int id) {
 		return service.findChampion(id);
+	}
+
+	@Path("/createChampion")
+	@POST
+	@Produces({ "application/json" })
+	String createChampion(String champion) {
+		return service.createChampion(champion);
 	}
 
 	public void setService(ChampionService service) {
