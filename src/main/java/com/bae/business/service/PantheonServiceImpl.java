@@ -16,8 +16,7 @@ public class PantheonServiceImpl implements PantheonService {
 
 	@Override
 	public String createPantheon(String pantheon) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.createPantheon(pantheon);
 	}
 
 	@Override
