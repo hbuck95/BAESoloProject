@@ -21,8 +21,7 @@ public class ChampionServiceImpl implements ChampionService {
 
 	@Override
 	public String deleteChampion(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.deleteChampion(id);
 	}
 
 	@Override
