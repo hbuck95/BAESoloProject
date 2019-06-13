@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -42,6 +43,13 @@ public class ChampionController {
 	@Produces({ "application/json" })
 	String deleteChampion(@PathParam("championid") int id) {
 		return service.deleteChampion(id);
+	}
+
+	@Path("/updateAccount/{championid}")
+	@PUT
+	@Produces({ "application/json" })
+	String updateChampion(@PathParam("championid") int id, String champion) {
+		return service.updateChampion(id, champion);
 	}
 
 	public void setService(ChampionService service) {
