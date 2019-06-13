@@ -2,6 +2,7 @@ package com.bae.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -26,6 +27,13 @@ public class RoleController {
 	@Produces({ "application/json" })
 	public String findRole(@PathParam("roleId") int roleId) {
 		return service.findRole(roleId);
+	}
+
+	@Path("/createRole")
+	@POST
+	@Produces({ "application/json" })
+	public String createRole(String role) {
+		return service.createRole(role);
 	}
 
 	public void setService(RoleService service) {
