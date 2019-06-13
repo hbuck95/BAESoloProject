@@ -3,6 +3,7 @@ package com.bae.rest;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.bae.business.service.RoleService;
@@ -18,6 +19,13 @@ public class RoleController {
 	@Produces({ "application/json" })
 	public String getAllRoles() {
 		return service.getAllRoles();
+	}
+
+	@Path("/getRole{roleId}")
+	@GET
+	@Produces({ "application/json" })
+	public String findRole(@PathParam("roleId") int roleId) {
+		return service.findRole(roleId);
 	}
 
 	public void setService(RoleService service) {
