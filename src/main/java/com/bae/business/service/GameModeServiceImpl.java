@@ -26,8 +26,7 @@ public class GameModeServiceImpl implements GameModeService {
 
 	@Override
 	public String updateGameMode(int id, String gameMode) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.updateGameMode(id, gameMode);
 	}
 
 	@Override
