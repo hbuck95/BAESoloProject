@@ -21,8 +21,7 @@ public class ChampionGameModeStatsServiceImpl implements ChampionGameModeStatsSe
 
 	@Override
 	public String deleteChampionGameModeStats(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.deleteChampionGameModeStats(id);
 	}
 
 	@Override
