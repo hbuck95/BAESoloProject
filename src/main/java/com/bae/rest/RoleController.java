@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -42,6 +43,13 @@ public class RoleController {
 	@Produces({ "application/json" })
 	public String deleteRole(@PathParam("roleId") int id) {
 		return service.deleteRole(id);
+	}
+
+	@Path("/updateRole/{roleId}")
+	@PUT
+	@Produces({ "application/json" })
+	public String updateRole(@PathParam("roleId") int id, String role) {
+		return service.updateRole(id, role);
 	}
 
 	public void setService(RoleService service) {
