@@ -24,7 +24,7 @@ public class RoleController {
 		return service.getAllRoles();
 	}
 
-	@Path("/getRole{roleId}")
+	@Path("/getRole/{roleId}")
 	@GET
 	@Produces({ "application/json" })
 	public String findRole(@PathParam("roleId") int roleId) {
