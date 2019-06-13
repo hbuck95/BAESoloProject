@@ -11,8 +11,7 @@ public class DamageTypeServiceImpl implements DamageTypeService {
 
 	@Override
 	public String getAllDamageTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.getAllDamageTypes();
 	}
 
 	@Override
