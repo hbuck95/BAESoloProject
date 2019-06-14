@@ -2,6 +2,7 @@ package com.bae.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -41,6 +42,13 @@ public class ChampionGameModeStatsController {
 	public String findChampionGameModeStats(@PathParam("championName") String championName,
 			@PathParam("gameModeId") int gameModeId) {
 		return service.findChampionGameModeStats(championName, gameModeId);
+	}
+
+	@Path("/createStats")
+	@POST
+	@Produces({ "application/json" })
+	public String createChampionGameModeStats(String stats) {
+		return service.createChampionGameModeStats(stats);
 	}
 
 	public void setService(ChampionGameModeStatsService service) {
