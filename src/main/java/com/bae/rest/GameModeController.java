@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -42,6 +43,13 @@ public class GameModeController {
 	@Produces({ "application/json" })
 	public String deleteGameMode(@PathParam("gameModeId") int id) {
 		return service.deleteGameMode(id);
+	}
+
+	@Path("/updateGameMode/{gameModeId}")
+	@PUT
+	@Produces({ "application/json" })
+	public String updateGameMode(@PathParam("gameModeId") int id, String gameMode) {
+		return service.updateGameMode(id, gameMode);
 	}
 
 	public void setService(GameModeService service) {
