@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -23,26 +24,11 @@ public class ChampionGameModeStatsController {
 		return service.getAllChampionGameModeStats();
 	}
 
-	@Path("/getStats/{gameModeId}")
+	@Path("/getStats/{id}")
 	@GET
 	@Produces({ "application/json" })
-	public String findChampionGameModeStats(@PathParam("gameModeId") int gameModeId) {
-		return service.findChampionGameModeStats(gameModeId);
-	}
-
-	@Path("/getStats/{championName}")
-	@GET
-	@Produces({ "application/json" })
-	public String findChampionGameModeStats(@PathParam("championName") String championName) {
-		return service.findChampionGameModeStats(championName);
-	}
-
-	@Path("/getStats/{championName}/{gameModeId}")
-	@GET
-	@Produces({ "application/json" })
-	public String findChampionGameModeStats(@PathParam("championName") String championName,
-			@PathParam("gameModeId") int gameModeId) {
-		return service.findChampionGameModeStats(championName, gameModeId);
+	public String findChampionGameModeStats(@PathParam("id") int id) {
+		return service.findChampionGameModeStats(id);
 	}
 
 	@Path("/createStats")
@@ -57,6 +43,13 @@ public class ChampionGameModeStatsController {
 	@Produces({ "application/json" })
 	public String deleteChampionGameModeStats(@PathParam("statsId") int id) {
 		return service.deleteChampionGameModeStats(id);
+	}
+
+	@Path("/updateStats/{statsId}")
+	@PUT
+	@Produces({ "application/json" })
+	public String updateChampionGameModeStats(@PathParam("statsId") int id, String gameMode) {
+		return service.updateChampionGameModeStats(id, gameMode);
 	}
 
 	public void setService(ChampionGameModeStatsService service) {
