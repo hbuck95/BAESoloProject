@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -42,6 +43,13 @@ public class DamageTypeController {
 	@Produces({ "application/json" })
 	public String deleteDamageType(@PathParam("damageType") int id) {
 		return service.deleteDamageType(id);
+	}
+
+	@Path("/updateDamageType/{damageType}")
+	@PUT
+	@Produces({ "application/json" })
+	public String updateDamageType(@PathParam("damageType") int id, String damageType) {
+		return service.updateDamageType(id, damageType);
 	}
 
 	public void setService(DamageTypeService service) {
