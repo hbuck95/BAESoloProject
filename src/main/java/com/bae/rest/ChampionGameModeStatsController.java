@@ -31,8 +31,16 @@ public class ChampionGameModeStatsController {
 	@Path("/getStats/{championName}")
 	@GET
 	@Produces({ "application/json" })
-	String findChampionGameModeStats(@PathParam("championName") String championName) {
+	public String findChampionGameModeStats(@PathParam("championName") String championName) {
 		return service.findChampionGameModeStats(championName);
+	}
+
+	@Path("/getStats/{championName}/{gameModeId}")
+	@GET
+	@Produces({ "application/json" })
+	public String findChampionGameModeStats(@PathParam("championName") String championName,
+			@PathParam("gameModeId") int gameModeId) {
+		return service.findChampionGameModeStats(championName, gameModeId);
 	}
 
 	public void setService(ChampionGameModeStatsService service) {
