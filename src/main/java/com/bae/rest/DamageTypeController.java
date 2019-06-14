@@ -2,6 +2,7 @@ package com.bae.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -26,6 +27,13 @@ public class DamageTypeController {
 	@Produces({ "application/json" })
 	public String findDamageType(@PathParam("damageType") int id) {
 		return service.findDamageType(id);
+	}
+
+	@Path("/createDamageType")
+	@POST
+	@Produces({ "application/json" })
+	public String createDamageType(String damageType) {
+		return service.createDamageType(damageType);
 	}
 
 	public void setService(DamageTypeService service) {
