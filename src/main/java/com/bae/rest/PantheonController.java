@@ -23,6 +23,13 @@ public class PantheonController {
 		return service.getAllPantheons();
 	}
 
+	@Path("/getPantheon/{pantheonId}")
+	@GET
+	@Produces({ "application/json" })
+	public String getPantheon(@PathParam("pantheonId") int id) {
+		return service.findPantheon(id);
+	}
+
 	@Path("/createPantheon")
 	@POST
 	@Produces({ "application/json" })
