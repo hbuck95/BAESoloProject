@@ -14,7 +14,7 @@ public class Pantheon {
 	@Column(name = "pantheon_id")
 	private int id;
 
-	@Column(length = 8, name = "pantheon_name")
+	@Column(length = 10, name = "pantheon_name")
 	private String name;
 
 	// Default constructor for JSONUtil to implement
@@ -53,7 +53,8 @@ public class Pantheon {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
