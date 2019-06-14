@@ -8,7 +8,6 @@ import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -57,13 +56,20 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 	@Override
 	@Transactional(REQUIRED)
 	public String updateChampionGameModeStats(int id, String championGameModeStats) {
-		ChampionGameModeStats updatedMode = util.getObjectForJSON(championGameModeStats, ChampionGameModeStats.class);
-
 		if (!checkGameModeStatsExist(id)) {
 			return STATS_NOT_FOUND;
 		}
 
-		entityManager.merge(updatedMode);
+		ChampionGameModeStats updatedStats = util.getObjectForJSON(championGameModeStats, ChampionGameModeStats.class);
+		ChampionGameModeStats oldStats = entityManager.find(ChampionGameModeStats.class, id);
+
+		oldStats.setChampion(updatedStats.getChampion());
+		oldStats.setBanRate(updatedStats.getBanRate());
+		oldStats.setWinRate(updatedStats.getWinRate());
+		oldStats.setPickRate(updatedStats.getPickRate());
+		oldStats.setGameMode(updatedStats.getGameMode());
+
+		entityManager.merge(oldStats);
 		return UPDATE_STATS_SUCCESS;
 	}
 
@@ -76,37 +82,8 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 		return util.getJSONForObject((ChampionGameModeStats) entityManager.find(ChampionGameModeStats.class, id));
 	}
 
-	@Override
-	public String findChampionGameModeStats(String championName) {
-		String queryString = String.format(
-				"SELECT cgms FROM CHAMPIONGAMEMODESTATS cgms WHERE cgms.CHAMPION_ID  in (SELECT c.CHAMPION_ID from CHAMPION c WHERE c.CHAMPION_NAME = '%s')",
-				championName);
-
-		TypedQuery<ChampionGameModeStats> query = entityManager.createQuery(queryString, ChampionGameModeStats.class);
-		Collection<ChampionGameModeStats> championGameModeStats = query.getResultList();
-		return util.getJSONForObject((ChampionGameModeStats) championGameModeStats);
-	}
-
-	@Override
-	public String findChampionGameModeStats(String championName, int gameModeId) {
-		String queryString = String.format(
-				"SELECT cgms FROM CHAMPIONGAMEMODESTATS cgms WHERE cgms.CHAMPION_ID  in (SELECT c.CHAMPION_ID from CHAMPION c WHERE c.CHAMPION_NAME = '%s') AND cgms.GAMEMODE_ID = %s",
-				championName, gameModeId);
-
-		TypedQuery<ChampionGameModeStats> query = entityManager.createQuery(queryString, ChampionGameModeStats.class);
-		Collection<ChampionGameModeStats> championGameModeStats = query.getResultList().stream()
-				.filter(x -> x.getGameMode().getId() == gameModeId).collect(Collectors.toList());
-		return util.getJSONForObject((ChampionGameModeStats) championGameModeStats);
-	}
-
 	private boolean checkGameModeStatsExist(int id) {
-		// Execute a query rather than using entityManager.find/.contains to improve
-		// performance by not having to retrieve records from the database.
-
-		return (long) entityManager.createQuery(String.format(
-				"SELECT COUNT(cgms) FROM ChampionGameModeStats cgms WHERE cgms.championgamemodestats_id = '%s'", id))
-				.getSingleResult() == 1;
-
+		return entityManager.find(ChampionGameModeStats.class, id) != null;
 	}
 
 }
