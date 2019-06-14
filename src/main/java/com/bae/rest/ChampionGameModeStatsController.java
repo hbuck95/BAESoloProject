@@ -1,6 +1,7 @@
 package com.bae.rest;
 
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -49,6 +50,13 @@ public class ChampionGameModeStatsController {
 	@Produces({ "application/json" })
 	public String createChampionGameModeStats(String stats) {
 		return service.createChampionGameModeStats(stats);
+	}
+
+	@Path("/deleteStats/{statsId}")
+	@DELETE
+	@Produces({ "application/json" })
+	public String deleteChampionGameModeStats(@PathParam("statsId") int id) {
+		return service.deleteChampionGameModeStats(id);
 	}
 
 	public void setService(ChampionGameModeStatsService service) {
