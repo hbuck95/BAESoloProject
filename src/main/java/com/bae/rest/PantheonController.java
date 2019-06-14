@@ -2,6 +2,7 @@ package com.bae.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
@@ -16,8 +17,15 @@ public class PantheonController {
 	@Path("/getAllPantheons")
 	@GET
 	@Produces({ "application/json" })
-	public String getAllRoles() {
+	public String getAllPantheons() {
 		return service.getAllPantheons();
+	}
+
+	@Path("/createPantheon")
+	@POST
+	@Produces({ "application/json" })
+	public String createPantheon(String pantheon) {
+		return service.createPantheon(pantheon);
 	}
 
 	public void setService(PantheonService service) {
