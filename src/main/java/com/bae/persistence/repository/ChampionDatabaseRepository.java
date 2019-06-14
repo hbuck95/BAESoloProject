@@ -55,13 +55,27 @@ public class ChampionDatabaseRepository implements ChampionRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String updateChampion(int id, String champion) {
-		Champion updatedChampion = util.getObjectForJSON(champion, Champion.class);
 
 		if (!checkChampionExists(id)) {
 			return CHAMPION_NOT_FOUND;
 		}
 
-		entityManager.merge(updatedChampion);
+		// Get our updated object using the json string parameter
+		Champion updatedChampion = util.getObjectForJSON(champion, Champion.class);
+
+		// Retrieve the old champion so we can update it with the new champion values
+		// Then use the entity manager to merge it into the database.
+		// This updates the fields without affecting the primary key
+		Champion oldChampion = entityManager.find(Champion.class, id);
+
+		oldChampion.setName(updatedChampion.getName());
+		oldChampion.setPantheon(updatedChampion.getPantheon());
+		oldChampion.setDamageType(updatedChampion.getDamageType());
+		oldChampion.setRole(updatedChampion.getRole());
+		oldChampion.setHealth(updatedChampion.getHealth());
+		oldChampion.setDamage(updatedChampion.getDamage());
+
+		entityManager.merge(oldChampion);
 		return UPDATE_CHAMPION_SUCCESS;
 	}
 
@@ -75,11 +89,7 @@ public class ChampionDatabaseRepository implements ChampionRepository {
 	}
 
 	private boolean checkChampionExists(int id) {
-		// Execute a query rather than using entityManager.find/.contains to improve
-		// performance by not having to retrieve records from the database.
-		return (long) entityManager
-				.createQuery(String.format("SELECT COUNT(c) FROM Champion c WHERE c.champion_id = '%s'", id))
-				.getSingleResult() == 1;
+		return entityManager.find(Champion.class, id) != null;
 	}
 
 }
