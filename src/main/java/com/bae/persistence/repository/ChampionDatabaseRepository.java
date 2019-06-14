@@ -47,6 +47,9 @@ public class ChampionDatabaseRepository implements ChampionRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String deleteChampion(int id) {
+		if (!checkChampionExists(id)) {
+			return CHAMPION_NOT_FOUND;
+		}
 		Champion champ = entityManager.find(Champion.class, id);
 		entityManager.remove(champ);
 		return DELETE_CHAMPION_SUCCESS;
@@ -55,7 +58,6 @@ public class ChampionDatabaseRepository implements ChampionRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String updateChampion(int id, String champion) {
-
 		if (!checkChampionExists(id)) {
 			return CHAMPION_NOT_FOUND;
 		}

@@ -47,6 +47,9 @@ public class RoleDatabaseRepository implements RoleRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String deleteRole(int id) {
+		if (!checkRoleExists(id)) {
+			return ROLE_NOT_FOUND;
+		}
 		Role role = entityManager.find(Role.class, id);
 		entityManager.remove(role);
 		return DELETE_ROLE_SUCCESS;
@@ -55,7 +58,6 @@ public class RoleDatabaseRepository implements RoleRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String updateRole(int id, String role) {
-
 		if (!checkRoleExists(id)) {
 			return ROLE_NOT_FOUND;
 		}
@@ -71,7 +73,6 @@ public class RoleDatabaseRepository implements RoleRepository {
 
 	@Override
 	public String findRole(int id) {
-
 		if (!checkRoleExists(id)) {
 			return ROLE_NOT_FOUND;
 		}

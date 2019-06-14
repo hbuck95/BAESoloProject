@@ -48,6 +48,10 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 	@Override
 	@Transactional(REQUIRED)
 	public String deleteChampionGameModeStats(int id) {
+		if (!checkGameModeStatsExist(id)) {
+			return STATS_NOT_FOUND;
+		}
+
 		ChampionGameModeStats stats = entityManager.find(ChampionGameModeStats.class, id);
 		entityManager.remove(stats);
 		return DELETE_STATS_SUCCESS;

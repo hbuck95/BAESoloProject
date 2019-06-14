@@ -47,6 +47,10 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String deleteDamageType(int id) {
+		if (!checkDamageTypeExists(id)) {
+			return DAMAGETYPE_NOT_FOUND;
+		}
+
 		DamageType damageType = entityManager.find(DamageType.class, id);
 		entityManager.remove(damageType);
 		return DELETE_DAMAGETYPE_SUCCESS;

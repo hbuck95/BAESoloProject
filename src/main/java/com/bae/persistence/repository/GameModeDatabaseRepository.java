@@ -47,6 +47,10 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String deleteGameMode(int id) {
+		if (!checkGameModeExists(id)) {
+			return GAMEMODE_NOT_FOUND;
+		}
+
 		GameMode mode = entityManager.find(GameMode.class, id);
 		entityManager.remove(mode);
 		return DELETE_GAMEMODE_SUCCESS;

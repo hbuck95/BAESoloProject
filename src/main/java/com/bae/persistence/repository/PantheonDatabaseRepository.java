@@ -47,6 +47,10 @@ public class PantheonDatabaseRepository implements PantheonRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String deletePantheon(int id) {
+		if (!checkPantheonExists(id)) {
+			return PANTHEON_NOT_FOUND;
+		}
+
 		Pantheon pantheon = entityManager.find(Pantheon.class, id);
 		entityManager.remove(pantheon);
 		return DELETE_PANTHEON_SUCCESS;
