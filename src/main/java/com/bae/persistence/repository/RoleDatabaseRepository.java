@@ -55,18 +55,23 @@ public class RoleDatabaseRepository implements RoleRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String updateRole(int id, String role) {
-		Role updatedRole = util.getObjectForJSON(role, Role.class);
 
 		if (!checkRoleExists(id)) {
 			return ROLE_NOT_FOUND;
 		}
 
-		entityManager.merge(updatedRole);
+		Role updatedRole = util.getObjectForJSON(role, Role.class);
+		Role oldRole = entityManager.find(Role.class, id);
+
+		oldRole.setName(updatedRole.getName());
+
+		entityManager.merge(oldRole);
 		return UPDATE_ROLE_SUCCESS;
 	}
 
 	@Override
 	public String findRole(int id) {
+
 		if (!checkRoleExists(id)) {
 			return ROLE_NOT_FOUND;
 		}
@@ -75,12 +80,7 @@ public class RoleDatabaseRepository implements RoleRepository {
 	}
 
 	private boolean checkRoleExists(int id) {
-		// Execute a query rather than using entityManager.find/.contains to improve
-		// performance by not having to retrieve records from the database.
-
-		return (long) entityManager.createQuery(String.format("SELECT COUNT(r) FROM Role r WHERE r.role_id = '%s'", id))
-				.getSingleResult() == 1;
-
+		return entityManager.find(Role.class, id) != null;
 	}
 
 }
