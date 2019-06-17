@@ -81,4 +81,10 @@ public class DamageTypeDatabaseRepositoryTest {
 		assertEquals(Constants.DAMAGETYPE_NOT_FOUND, reply);
 	}
 
+	@Test
+	public void testCreateDamageType() {
+		String reply = repo.createDamageType(MOCK_DAMAGETYPE_OBJECT);
+		assertEquals(Constants.CREATE_DAMAGETYPE_SUCCESS, reply);
+	}
+
 }
