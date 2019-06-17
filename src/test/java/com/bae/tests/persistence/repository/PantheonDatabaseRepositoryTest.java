@@ -53,4 +53,10 @@ public class PantheonDatabaseRepositoryTest {
 		assertEquals(MOCK_PANTHEON_ARRAY, repo.getAllPantheons());
 	}
 
+	@Test
+	public void testFindPantheon() {
+		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonMap.get(1));
+		assertEquals(MOCK_PANTHEON_OBJECT, repo.findPantheon(1));
+	}
+
 }
