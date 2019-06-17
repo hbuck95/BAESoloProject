@@ -19,6 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.bae.persistence.domain.GameMode;
 import com.bae.persistence.repository.GameModeDatabaseRepository;
+import com.bae.util.Constants;
 import com.bae.util.JSONUtil;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -60,6 +61,26 @@ public class GameModeDatabaseRepositoryTest {
 	public void testFindGameMode() {
 		Mockito.when(entityManager.find(GameMode.class, 1)).thenReturn(gameModeMap.get(1));
 		assertEquals(MOCK_GAMEMODE_OBJECT, repo.findGameMode(1));
+	}
+
+	@Test
+	public void testDeleteGameModeWhichDoesExist() {
+		Mockito.when(entityManager.find(GameMode.class, 1)).thenReturn(gameModeMap.get(1));
+
+		// Check the result of deleting a role which does exist
+		entityManager.remove(gameModeMap.get(1));
+		String reply = repo.deleteGameMode(1);
+
+		assertEquals(Constants.DELETE_GAMEMODE_SUCCESS, reply);
+	}
+
+	@Test
+	public void testDeleteGameModeWhichDoesNotExist() {
+		Mockito.when(entityManager.find(GameMode.class, 1)).thenReturn(gameModeMap.get(1));
+
+		// Check the result of deleting a role which doesn't exist
+		String reply = repo.deleteGameMode(2);
+		assertEquals(Constants.GAMEMODE_NOT_FOUND, reply);
 	}
 
 }
