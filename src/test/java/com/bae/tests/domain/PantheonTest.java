@@ -17,21 +17,12 @@ public class PantheonTest {
 	private String pantheonAJson;
 
 	@Before
-	public void setup() {		
+	public void setup() {
 		json = new JSONUtil();
-		
-		pantheonA = new Pantheon.Builder()
-				.id(1)
-				.name("Norse")
-				.build();
-		
-		championA = new Champion.Builder()
-				.id(1)
-				.name("Ymir")
-				.pantheon(pantheonA)
-				.health(510)
-				.damage(38)
-				.build();
+
+		pantheonA = new Pantheon.Builder().id(1).name("Norse").build();
+
+		championA = new Champion.Builder().id(1).name("Ymir").pantheon(pantheonA).health(510).damage(38).build();
 
 		championAJson = "{\"id\":1,\"name\":\"Ymir\",\"pantheon\":{\"id\":1,\"name\":\"Norse\"},\"health\":510,\"damage\":38}";
 		pantheonAJson = "{\"id\":1,\"name\":\"Norse\"}";
@@ -66,16 +57,32 @@ public class PantheonTest {
 		assertEquals(1, championFromJson.getPantheon().getId());
 		assertEquals("Ymir", championFromJson.getName());
 	}
-	
+
 	@Test
 	public void testPantheonBuilder() {
-		Pantheon pantheon = new Pantheon.Builder()
-				.id(2)
-				.name("Egyptian")
-				.build();
-		
+		Pantheon pantheon = new Pantheon.Builder().id(2).name("Egyptian").build();
+
 		assertEquals(2, pantheon.getId());
 		assertEquals("Egyptian", pantheon.getName());
+	}
+
+	@Test
+	public void testSetName() {
+		pantheonA.setName("Roman");
+		assertEquals("Roman", pantheonA.getName());
+		assertEquals("Roman", championA.getPantheon().getName());
+	}
+
+	@Test
+	public void testGetName() {
+		assertEquals("Norse", pantheonA.getName());
+		assertEquals("Norse", championA.getPantheon().getName());
+	}
+
+	@Test
+	public void testGetId() {
+		assertEquals(1, pantheonA.getId());
+		assertEquals(1, championA.getPantheon().getId());
 	}
 
 }

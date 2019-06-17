@@ -20,18 +20,9 @@ public class DamageTypeTest {
 	public void setup() {
 		json = new JSONUtil();
 
-		damageTypeA = new DamageType.Builder()
-				.id(1)
-				.name("Magical")
-				.build();
+		damageTypeA = new DamageType.Builder().id(1).name("Magical").build();
 
-		championA = new Champion.Builder()
-				.id(1)
-				.name("Ymir")
-				.damageType(damageTypeA)
-				.health(510)
-				.damage(38)
-				.build();
+		championA = new Champion.Builder().id(1).name("Ymir").damageType(damageTypeA).health(510).damage(38).build();
 
 		championAJson = "{\"id\":1,\"name\":\"Ymir\",\"damageType\":{\"id\":1,\"name\":\"Magical\"},\"health\":510,\"damage\":38}";
 		damageTypeAJson = "{\"id\":1,\"name\":\"Magical\"}";
@@ -67,16 +58,29 @@ public class DamageTypeTest {
 		assertEquals(1, championFromJson.getDamageType().getId());
 		assertEquals("Ymir", championFromJson.getName());
 	}
-	
+
 	@Test
 	public void testDamageTypeBuilder() {
-		DamageType damageType = new DamageType.Builder()
-				.id(2)
-				.name("Physical")
-				.build();
-		
+		DamageType damageType = new DamageType.Builder().id(2).name("Physical").build();
+
 		assertEquals(2, damageType.getId());
 		assertEquals("Physical", damageType.getName());
+	}
+
+	@Test
+	public void testSetName() {
+		championA.getDamageType().setName("Melee");
+		assertEquals("Melee", championA.getDamageType().getName());
+	}
+
+	@Test
+	public void testGetName() {
+		assertEquals("Magical", championA.getDamageType().getName());
+	}
+
+	@Test
+	public void testGetId() {
+		assertEquals(1, championA.getDamageType().getId());
 	}
 
 }

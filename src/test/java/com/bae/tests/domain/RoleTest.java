@@ -20,18 +20,9 @@ public class RoleTest {
 	public void setup() {
 		json = new JSONUtil();
 
-		roleA = new Role.Builder()
-				.id(1)
-				.name("Guardian")
-				.build();
+		roleA = new Role.Builder().id(1).name("Guardian").build();
 
-		championA = new Champion.Builder()
-				.id(1)
-				.name("Ymir")
-				.role(roleA)
-				.health(510)
-				.damage(38)
-				.build();
+		championA = new Champion.Builder().id(1).name("Ymir").role(roleA).health(510).damage(38).build();
 
 		championAJson = "{\"id\":1,\"name\":\"Ymir\",\"role\":{\"id\":1,\"name\":\"Guardian\"},\"health\":510,\"damage\":38}";
 		roleAJson = "{\"id\":1,\"name\":\"Guardian\"}";
@@ -71,17 +62,32 @@ public class RoleTest {
 		assertEquals(1, champion.getRole().getId());
 		assertEquals("Ymir", champion.getName());
 	}
-	
+
 	@Test
 	public void testRoleBuilder() {
-		Role role = new Role.Builder()
-				.id(3)
-				.name("Assassin")
-				.build();
-		
+		Role role = new Role.Builder().id(3).name("Assassin").build();
+
 		assertEquals(3, role.getId());
 		assertEquals("Assassin", role.getName());
-				
 	}
-	
+
+	@Test
+	public void testSetName() {
+		roleA.setName("Assassin");
+		assertEquals("Assassin", roleA.getName());
+		assertEquals("Assassin", championA.getRole().getName());
+	}
+
+	@Test
+	public void testGetName() {
+		assertEquals("Guardian", roleA.getName());
+		assertEquals("Guardian", championA.getRole().getName());
+	}
+
+	@Test
+	public void testGetId() {
+		assertEquals(1, roleA.getId());
+		assertEquals(1, championA.getRole().getId());
+	}
+
 }
