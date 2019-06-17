@@ -83,4 +83,10 @@ public class ChampionDatabaseRepositoryTest {
 		assertEquals(Constants.CHAMPION_NOT_FOUND, reply);
 	}
 
+	@Test
+	public void testCreateChampion() {
+		String reply = repo.createChampion(MOCK_CHAMPION_OBJECT);
+		assertEquals(Constants.CREATE_CHAMPION_SUCCESS, reply);
+	}
+
 }
