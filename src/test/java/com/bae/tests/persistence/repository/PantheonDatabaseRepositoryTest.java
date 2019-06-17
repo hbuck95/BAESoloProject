@@ -19,6 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.bae.persistence.domain.Pantheon;
 import com.bae.persistence.repository.PantheonDatabaseRepository;
+import com.bae.util.Constants;
 import com.bae.util.JSONUtil;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,6 +58,27 @@ public class PantheonDatabaseRepositoryTest {
 	public void testFindPantheon() {
 		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonMap.get(1));
 		assertEquals(MOCK_PANTHEON_OBJECT, repo.findPantheon(1));
+	}
+
+	@Test
+	public void testDeletePantheonWhichDoesExist() {
+		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonMap.get(1));
+
+		// Check the result of deleting a role which does exist
+		entityManager.remove(pantheonMap.get(1));
+		String reply = repo.deletePantheon(1);
+
+		assertEquals(Constants.DELETE_PANTHEON_SUCCESS, reply);
+	}
+
+	@Test
+	public void testDeletePantheonWhichDoesNotExist() {
+		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonMap.get(1));
+
+		// Check the result of deleting a role which doesn't exist
+		String reply = repo.deletePantheon(2);
+		assertEquals(Constants.PANTHEON_NOT_FOUND, reply);
+
 	}
 
 }
