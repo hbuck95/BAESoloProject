@@ -111,4 +111,13 @@ public class ChampionDatabaseRepositoryTest {
 		assertEquals(Constants.CHAMPION_NOT_FOUND, reply);
 	}
 
+	@Test
+	public void testCheckChampionExists() {
+		boolean res;
+		res = repo.checkChampionExists(1);
+		assertEquals(false, res);
+		Mockito.when(entityManager.find(Champion.class, 1)).thenReturn(championMap.get(1));
+		res = repo.checkChampionExists(1);
+		assertEquals(true, res);
+	}
 }
