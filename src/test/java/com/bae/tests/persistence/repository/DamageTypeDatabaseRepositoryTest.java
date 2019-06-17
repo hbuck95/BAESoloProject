@@ -116,4 +116,14 @@ public class DamageTypeDatabaseRepositoryTest {
 		assertEquals(Constants.DAMAGETYPE_NOT_FOUND, reply);
 	}
 
+	@Test
+	public void testCheckDamageTypeExists() {
+		boolean res;
+		res = repo.checkDamageTypeExists(1);
+		assertEquals(false, res);
+		Mockito.when(entityManager.find(DamageType.class, 1)).thenReturn(damageTypeMap.get(1));
+		res = repo.checkDamageTypeExists(1);
+		assertEquals(true, res);
+	}
+
 }
