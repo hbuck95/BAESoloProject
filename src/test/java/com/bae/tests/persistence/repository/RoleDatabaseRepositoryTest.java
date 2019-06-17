@@ -63,16 +63,25 @@ public class RoleDatabaseRepositoryTest {
 
 	@Test
 	public void testDeleteRole() {
-		Role roleA = roleMap.get(1);
-		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleA);
-		entityManager.remove(roleA);
-		Mockito.verify(entityManager, Mockito.times(1)).remove(roleA);
+		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleMap.get(1));
+		entityManager.remove(roleMap.get(1));
+		Mockito.verify(entityManager, Mockito.times(1)).remove(roleMap.get(1));
 	}
 
 	@Test
 	public void testCreateRole() {
 		String reply = repo.createRole(MOCK_ROLE_OBJECT);
 		assertEquals(Constants.CREATE_ROLE_SUCCESS, reply);
+	}
+
+	@Test
+	public void testCheckRoleExists() {
+		boolean res;
+		res = repo.checkRoleExists(1);
+		assertEquals(false, res);
+		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleMap.get(1));
+		res = repo.checkRoleExists(1);
+		assertEquals(true, res);
 	}
 
 }

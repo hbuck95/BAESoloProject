@@ -80,7 +80,7 @@ public class RoleDatabaseRepository implements RoleRepository {
 		return util.getJSONForObject((Role) entityManager.find(Role.class, id));
 	}
 
-	private boolean checkRoleExists(int id) {
+	public boolean checkRoleExists(int id) {
 		return entityManager.find(Role.class, id) != null;
 	}
 
