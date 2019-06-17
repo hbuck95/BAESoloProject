@@ -34,14 +34,4 @@ public class ChampionGameModeStatsServiceImpl implements ChampionGameModeStatsSe
 		return repo.findChampionGameModeStats(gameModeId);
 	}
 
-	@Override
-	public String findChampionGameModeStats(String championName) {
-		return repo.findChampionGameModeStats(championName);
-	}
-
-	@Override
-	public String findChampionGameModeStats(String championName, int gameModeId) {
-		return repo.findChampionGameModeStats(championName, gameModeId);
-	}
-
 }

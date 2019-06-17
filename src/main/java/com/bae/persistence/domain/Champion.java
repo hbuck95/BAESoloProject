@@ -20,15 +20,15 @@ public class Champion {
 	@Column(length = 15, name = "champion_name")
 	private String name;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role_id")
 	private Role role;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "pantheon_id")
 	private Pantheon pantheon;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "damagetype_id")
 	private DamageType damageType;
 
@@ -109,7 +109,8 @@ public class Champion {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -123,7 +124,8 @@ public class Champion {
 	}
 
 	/**
-	 * @param role the role to set
+	 * @param role
+	 *            the role to set
 	 */
 	public void setRole(Role role) {
 		this.role = role;
@@ -137,7 +139,8 @@ public class Champion {
 	}
 
 	/**
-	 * @param pantheon the pantheonId to set
+	 * @param pantheon
+	 *            the pantheonId to set
 	 */
 	public void setPantheon(Pantheon pantheon) {
 		this.pantheon = pantheon;
@@ -151,7 +154,8 @@ public class Champion {
 	}
 
 	/**
-	 * @param damageType the damageType to set
+	 * @param damageType
+	 *            the damageType to set
 	 */
 	public void setDamageType(DamageType damageType) {
 		this.damageType = damageType;
@@ -165,7 +169,8 @@ public class Champion {
 	}
 
 	/**
-	 * @param health the health to set
+	 * @param health
+	 *            the health to set
 	 */
 	public void setHealth(int health) {
 		this.health = health;
@@ -179,7 +184,8 @@ public class Champion {
 	}
 
 	/**
-	 * @param damage the damage to set
+	 * @param damage
+	 *            the damage to set
 	 */
 	public void setDamage(int damage) {
 		this.damage = damage;

@@ -47,6 +47,10 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String deleteGameMode(int id) {
+		if (!checkGameModeExists(id)) {
+			return GAMEMODE_NOT_FOUND;
+		}
+
 		GameMode mode = entityManager.find(GameMode.class, id);
 		entityManager.remove(mode);
 		return DELETE_GAMEMODE_SUCCESS;
@@ -55,13 +59,16 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String updateGameMode(int id, String gameMode) {
-		GameMode updatedMode = util.getObjectForJSON(gameMode, GameMode.class);
-
 		if (!checkGameModeExists(id)) {
 			return GAMEMODE_NOT_FOUND;
 		}
 
-		entityManager.merge(updatedMode);
+		GameMode updatedMode = util.getObjectForJSON(gameMode, GameMode.class);
+		GameMode oldMode = entityManager.find(GameMode.class, id);
+
+		oldMode.setName(updatedMode.getName());
+
+		entityManager.merge(oldMode);
 		return UPDATE_GAMEMODE_SUCCESS;
 	}
 
@@ -75,13 +82,7 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 	}
 
 	private boolean checkGameModeExists(int id) {
-		// Execute a query rather than using entityManager.find/.contains to improve
-		// performance by not having to retrieve records from the database.
-
-		return (long) entityManager
-				.createQuery(String.format("SELECT COUNT(g) FROM GameMode g WHERE g.gamemode_id = '%s'", id))
-				.getSingleResult() == 1;
-
+		return entityManager.find(GameMode.class, id) != null;
 	}
 
 }

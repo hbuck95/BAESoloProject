@@ -1,13 +1,13 @@
 package com.bae.persistence.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class ChampionGameModeStats {
@@ -17,11 +17,11 @@ public class ChampionGameModeStats {
 	@Column(name = "championgamemodestats_id")
 	private int id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "champion_id")
 	private Champion champion;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "gamemode_id")
 	private GameMode gameMode;
 
@@ -98,7 +98,8 @@ public class ChampionGameModeStats {
 	}
 
 	/**
-	 * @param champion the champion to set
+	 * @param champion
+	 *            the champion to set
 	 */
 	public void setChampion(Champion champion) {
 		this.champion = champion;
@@ -112,7 +113,8 @@ public class ChampionGameModeStats {
 	}
 
 	/**
-	 * @param gameMode the gameMode to set
+	 * @param gameMode
+	 *            the gameMode to set
 	 */
 	public void setGameMode(GameMode gameMode) {
 		this.gameMode = gameMode;
@@ -126,7 +128,8 @@ public class ChampionGameModeStats {
 	}
 
 	/**
-	 * @param winRate the winRate to set
+	 * @param winRate
+	 *            the winRate to set
 	 */
 	public void setWinRate(double winRate) {
 		this.winRate = winRate;
@@ -140,7 +143,8 @@ public class ChampionGameModeStats {
 	}
 
 	/**
-	 * @param pickRate the pickRate to set
+	 * @param pickRate
+	 *            the pickRate to set
 	 */
 	public void setPickRate(double pickRate) {
 		this.pickRate = pickRate;
@@ -154,7 +158,8 @@ public class ChampionGameModeStats {
 	}
 
 	/**
-	 * @param banRate the banRate to set
+	 * @param banRate
+	 *            the banRate to set
 	 */
 	public void setBanRate(double banRate) {
 		this.banRate = banRate;

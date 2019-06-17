@@ -10,9 +10,4 @@ public interface ChampionGameModeStatsRepository {
 	String updateChampionGameModeStats(int id, String gameMode);
 
 	String findChampionGameModeStats(int gameModeId);
-
-	String findChampionGameModeStats(String championName);
-
-	String findChampionGameModeStats(String championName, int gameModeId);
-
 }

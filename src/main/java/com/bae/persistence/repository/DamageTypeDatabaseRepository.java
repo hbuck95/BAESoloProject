@@ -47,6 +47,10 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String deleteDamageType(int id) {
+		if (!checkDamageTypeExists(id)) {
+			return DAMAGETYPE_NOT_FOUND;
+		}
+
 		DamageType damageType = entityManager.find(DamageType.class, id);
 		entityManager.remove(damageType);
 		return DELETE_DAMAGETYPE_SUCCESS;
@@ -55,13 +59,16 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String updateDamageType(int id, String damageType) {
-		DamageType updatedDamageType = util.getObjectForJSON(damageType, DamageType.class);
-
 		if (!checkDamageTypeExists(id)) {
 			return DAMAGETYPE_NOT_FOUND;
 		}
 
-		entityManager.merge(updatedDamageType);
+		DamageType updatedDamageType = util.getObjectForJSON(damageType, DamageType.class);
+		DamageType oldDamageType = entityManager.find(DamageType.class, id);
+
+		oldDamageType.setName(updatedDamageType.getName());
+
+		entityManager.merge(oldDamageType);
 		return UPDATE_DAMAGETYPE_SUCCESS;
 	}
 
@@ -75,13 +82,7 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 	}
 
 	private boolean checkDamageTypeExists(int id) {
-		// Execute a query rather than using entityManager.find/.contains to improve
-		// performance by not having to retrieve records from the database.
-
-		return (long) entityManager
-				.createQuery(String.format("SELECT COUNT(dt) FROM DAMAGETYPE dt WHERE dt.damagetype_id = '%s'", id))
-				.getSingleResult() == 1;
-
+		return entityManager.find(DamageType.class, id) != null;
 	}
 
 }

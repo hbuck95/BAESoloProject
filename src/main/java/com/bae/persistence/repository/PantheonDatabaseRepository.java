@@ -47,6 +47,10 @@ public class PantheonDatabaseRepository implements PantheonRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String deletePantheon(int id) {
+		if (!checkPantheonExists(id)) {
+			return PANTHEON_NOT_FOUND;
+		}
+
 		Pantheon pantheon = entityManager.find(Pantheon.class, id);
 		entityManager.remove(pantheon);
 		return DELETE_PANTHEON_SUCCESS;
@@ -55,13 +59,17 @@ public class PantheonDatabaseRepository implements PantheonRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String updatePantheon(int id, String pantheon) {
-		Pantheon updatedMode = util.getObjectForJSON(pantheon, Pantheon.class);
 
 		if (!checkPantheonExists(id)) {
 			return PANTHEON_NOT_FOUND;
 		}
 
-		entityManager.merge(updatedMode);
+		Pantheon updatedPantheon = util.getObjectForJSON(pantheon, Pantheon.class);
+		Pantheon oldPantheon = entityManager.find(Pantheon.class, id);
+
+		oldPantheon.setName(updatedPantheon.getName());
+
+		entityManager.merge(oldPantheon);
 		return UPDATE_PANTHEON_SUCCESS;
 	}
 
@@ -75,12 +83,7 @@ public class PantheonDatabaseRepository implements PantheonRepository {
 	}
 
 	private boolean checkPantheonExists(int id) {
-		// Execute a query rather than using entityManager.find/.contains to improve
-		// performance by not having to retrieve records from the database.
-		return (long) entityManager
-				.createQuery(String.format("SELECT COUNT(p) FROM Pantheon p WHERE p.pantheon_id = '%s'", id))
-				.getSingleResult() == 1;
-
+		return entityManager.find(Pantheon.class, id) != null;
 	}
 
 }
