@@ -38,6 +38,7 @@ public class RoleDatabaseRepositoryTest {
 	private Map<Integer, Role> roleMap;
 	private static final String MOCK_ROLE_ARRAY = "[{\"id\":1,\"name\":\"Guardian\"}]";
 	private static final String MOCK_ROLE_OBJECT = "{\"id\":1,\"name\":\"Guardian\"}";
+	private Role roleB;
 
 	@Before
 	public void setup() {
@@ -46,6 +47,7 @@ public class RoleDatabaseRepositoryTest {
 		repo.setUtil(util);
 		roleMap = new HashMap<>();
 		roleMap.put(1, new Role.Builder().id(1).name("Guardian").build());
+		roleB = new Role.Builder().id(5).name("Assassin").build();
 	}
 
 	@Test
@@ -90,14 +92,11 @@ public class RoleDatabaseRepositoryTest {
 
 	@Test
 	public void testUpdateRoleWhichDoesExist() {
-		Role roleA = roleMap.get(1);
-		Role roleB = new Role.Builder().id(5).name("Assassin").build();
-
-		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleA);
+		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleMap.get(1));
 		Mockito.when(entityManager.merge(roleB)).thenReturn(roleB);
 
 		String reply = repo.updateRole(1, util.getJSONForObject(roleB));
-		Mockito.verify(entityManager, Mockito.times(1)).merge(roleA);
+		Mockito.verify(entityManager, Mockito.times(1)).merge(roleMap.get(1));
 
 		Role roleFromManager = entityManager.find(Role.class, 1);
 
@@ -107,10 +106,7 @@ public class RoleDatabaseRepositoryTest {
 
 	@Test
 	public void testUpdateRoleWhichDoesNotExist() {
-		Role roleA = roleMap.get(1);
-		Role roleB = new Role.Builder().id(5).name("Assassin").build();
-
-		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleA);
+		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleMap.get(1));
 		Mockito.when(entityManager.merge(roleB)).thenReturn(roleB);
 
 		String reply = repo.updateRole(2, util.getJSONForObject(roleB));

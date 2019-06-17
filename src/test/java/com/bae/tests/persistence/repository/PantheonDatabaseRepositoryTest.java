@@ -37,6 +37,7 @@ public class PantheonDatabaseRepositoryTest {
 	private Map<Integer, Pantheon> pantheonMap;
 	private static final String MOCK_PANTHEON_ARRAY = "[{\"id\":1,\"name\":\"Norse\"}]";
 	private static final String MOCK_PANTHEON_OBJECT = "{\"id\":1,\"name\":\"Norse\"}";
+	private Pantheon pantheonB;
 
 	@Before
 	public void setup() {
@@ -45,6 +46,7 @@ public class PantheonDatabaseRepositoryTest {
 		repo.setUtil(util);
 		pantheonMap = new HashMap<>();
 		pantheonMap.put(1, new Pantheon.Builder().id(1).name("Norse").build());
+		pantheonB = new Pantheon.Builder().id(5).name("Egyptian").build();
 	}
 
 	@Test
@@ -64,7 +66,7 @@ public class PantheonDatabaseRepositoryTest {
 	public void testDeletePantheonWhichDoesExist() {
 		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonMap.get(1));
 
-		// Check the result of deleting a role which does exist
+		// Check the result of deleting a pantheon which does exist
 		entityManager.remove(pantheonMap.get(1));
 		String reply = repo.deletePantheon(1);
 
@@ -88,14 +90,11 @@ public class PantheonDatabaseRepositoryTest {
 
 	@Test
 	public void testUpdatePantheonWhichDoesExist() {
-		Pantheon pantheonA = pantheonMap.get(1);
-		Pantheon pantheonB = new Pantheon.Builder().id(5).name("Egyptian").build();
-
-		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonA);
+		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonMap.get(1));
 		Mockito.when(entityManager.merge(pantheonB)).thenReturn(pantheonB);
 
 		String reply = repo.updatePantheon(1, util.getJSONForObject(pantheonB));
-		Mockito.verify(entityManager, Mockito.times(1)).merge(pantheonA);
+		Mockito.verify(entityManager, Mockito.times(1)).merge(pantheonMap.get(1));
 
 		Pantheon pantheonFromManager = entityManager.find(Pantheon.class, 1);
 
@@ -105,10 +104,7 @@ public class PantheonDatabaseRepositoryTest {
 
 	@Test
 	public void testUpdatePantheonWhichDoesNotExist() {
-		Pantheon pantheonA = pantheonMap.get(1);
-		Pantheon pantheonB = new Pantheon.Builder().id(5).name("Egyptian").build();
-
-		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonA);
+		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonMap.get(1));
 		Mockito.when(entityManager.merge(pantheonB)).thenReturn(pantheonB);
 
 		String reply = repo.updatePantheon(2, util.getJSONForObject(pantheonB));

@@ -38,6 +38,7 @@ public class DamageTypeDatabaseRepositoryTest {
 	private Map<Integer, DamageType> damageTypeMap;
 	private static final String MOCK_DAMAGETYPE_ARRAY = "[{\"id\":1,\"name\":\"Magical\"}]";
 	private static final String MOCK_DAMAGETYPE_OBJECT = "{\"id\":1,\"name\":\"Magical\"}";
+	private DamageType damageTypeB;
 
 	@Before
 	public void setup() {
@@ -46,6 +47,7 @@ public class DamageTypeDatabaseRepositoryTest {
 		repo.setUtil(util);
 		damageTypeMap = new HashMap<>();
 		damageTypeMap.put(1, new DamageType.Builder().id(1).name("Magical").build());
+		damageTypeB = new DamageType.Builder().id(2).name("Physical").build();
 	}
 
 	@Test
@@ -89,14 +91,11 @@ public class DamageTypeDatabaseRepositoryTest {
 
 	@Test
 	public void testUpdateDamageTypeWhichDoesExist() {
-		DamageType damageTypeA = damageTypeMap.get(1);
-		DamageType damageTypeB = new DamageType.Builder().id(2).name("Physical").build();
-
-		Mockito.when(entityManager.find(DamageType.class, 1)).thenReturn(damageTypeA);
+		Mockito.when(entityManager.find(DamageType.class, 1)).thenReturn(damageTypeMap.get(1));
 		Mockito.when(entityManager.merge(damageTypeB)).thenReturn(damageTypeB);
 
 		String reply = repo.updateDamageType(1, util.getJSONForObject(damageTypeB));
-		Mockito.verify(entityManager, Mockito.times(1)).merge(damageTypeA);
+		Mockito.verify(entityManager, Mockito.times(1)).merge(damageTypeMap.get(1));
 
 		DamageType damageTypeFromManager = entityManager.find(DamageType.class, 1);
 
@@ -106,10 +105,7 @@ public class DamageTypeDatabaseRepositoryTest {
 
 	@Test
 	public void testUpdateDamageTypeWhichDoesNotExist() {
-		DamageType damageTypeA = damageTypeMap.get(1);
-		DamageType damageTypeB = new DamageType.Builder().id(2).name("Physical").build();
-
-		Mockito.when(entityManager.find(DamageType.class, 1)).thenReturn(damageTypeA);
+		Mockito.when(entityManager.find(DamageType.class, 1)).thenReturn(damageTypeMap.get(1));
 		Mockito.when(entityManager.merge(damageTypeB)).thenReturn(damageTypeB);
 
 		String reply = repo.updateDamageType(2, util.getJSONForObject(damageTypeB));
