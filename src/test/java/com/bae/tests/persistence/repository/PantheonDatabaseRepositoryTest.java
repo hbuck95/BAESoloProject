@@ -86,4 +86,33 @@ public class PantheonDatabaseRepositoryTest {
 		assertEquals(Constants.CREATE_PANTHEON_SUCCESS, reply);
 	}
 
+	@Test
+	public void testUpdatePantheonWhichDoesExist() {
+		Pantheon pantheonA = pantheonMap.get(1);
+		Pantheon pantheonB = new Pantheon.Builder().id(5).name("Egyptian").build();
+
+		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonA);
+		Mockito.when(entityManager.merge(pantheonB)).thenReturn(pantheonB);
+
+		String reply = repo.updatePantheon(1, util.getJSONForObject(pantheonB));
+		Mockito.verify(entityManager, Mockito.times(1)).merge(pantheonA);
+
+		Pantheon pantheonFromManager = entityManager.find(Pantheon.class, 1);
+
+		assertEquals(pantheonB.getName(), pantheonFromManager.getName());
+		assertEquals(Constants.UPDATE_PANTHEON_SUCCESS, reply);
+	}
+
+	@Test
+	public void testUpdatePantheonWhichDoesNotExist() {
+		Pantheon pantheonA = pantheonMap.get(1);
+		Pantheon pantheonB = new Pantheon.Builder().id(5).name("Egyptian").build();
+
+		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonA);
+		Mockito.when(entityManager.merge(pantheonB)).thenReturn(pantheonB);
+
+		String reply = repo.updatePantheon(2, util.getJSONForObject(pantheonB));
+		assertEquals(Constants.PANTHEON_NOT_FOUND, reply);
+	}
+
 }
