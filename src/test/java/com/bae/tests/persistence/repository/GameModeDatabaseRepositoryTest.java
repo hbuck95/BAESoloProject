@@ -67,7 +67,7 @@ public class GameModeDatabaseRepositoryTest {
 	public void testDeleteGameModeWhichDoesExist() {
 		Mockito.when(entityManager.find(GameMode.class, 1)).thenReturn(gameModeMap.get(1));
 
-		// Check the result of deleting a role which does exist
+		// Check the result of deleting a mode which does exist
 		entityManager.remove(gameModeMap.get(1));
 		String reply = repo.deleteGameMode(1);
 
@@ -78,9 +78,15 @@ public class GameModeDatabaseRepositoryTest {
 	public void testDeleteGameModeWhichDoesNotExist() {
 		Mockito.when(entityManager.find(GameMode.class, 1)).thenReturn(gameModeMap.get(1));
 
-		// Check the result of deleting a role which doesn't exist
+		// Check the result of deleting a mode which doesn't exist
 		String reply = repo.deleteGameMode(2);
 		assertEquals(Constants.GAMEMODE_NOT_FOUND, reply);
+	}
+
+	@Test
+	public void testCreateGameMode() {
+		String reply = repo.createGameMode(MOCK_GAMEMODE_OBJECT);
+		assertEquals(Constants.CREATE_GAMEMODE_SUCCESS, reply);
 	}
 
 }
