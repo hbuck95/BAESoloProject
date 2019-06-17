@@ -254,7 +254,7 @@
          <rule>
            <element>CLASS</element>
            <excludes>
-             <exclude>com.qa.rest.JAXActivator</exclude>
+             <exclude>com.bae.rest.Activator</exclude>
            </excludes>
            <limits>
              <limit>
