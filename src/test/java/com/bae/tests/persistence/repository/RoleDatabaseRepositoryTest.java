@@ -62,10 +62,24 @@ public class RoleDatabaseRepositoryTest {
 	}
 
 	@Test
-	public void testDeleteRole() {
+	public void testDeleteRoleWhichDoesExist() {
 		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleMap.get(1));
+
+		// Check the result of deleting a role which does exist
 		entityManager.remove(roleMap.get(1));
-		Mockito.verify(entityManager, Mockito.times(1)).remove(roleMap.get(1));
+		String reply = repo.deleteRole(1);
+
+		assertEquals(Constants.DELETE_ROLE_SUCCESS, reply);
+	}
+
+	@Test
+	public void testDeleteRoleWhichDoesNotExist() {
+		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleMap.get(1));
+
+		// Check the result of deleting a role which doesn't exist
+		String reply = repo.deleteRole(2);
+		assertEquals(Constants.ROLE_NOT_FOUND, reply);
+
 	}
 
 	@Test
@@ -75,7 +89,7 @@ public class RoleDatabaseRepositoryTest {
 	}
 
 	@Test
-	public void testUpdateRole() {
+	public void testUpdateRoleWhichDoesExist() {
 		Role roleA = roleMap.get(1);
 		Role roleB = new Role.Builder().id(5).name("Assassin").build();
 
@@ -89,6 +103,18 @@ public class RoleDatabaseRepositoryTest {
 
 		assertEquals(roleB.getName(), roleFromManager.getName());
 		assertEquals(Constants.UPDATE_ROLE_SUCCESS, reply);
+	}
+
+	@Test
+	public void testUpdateRoleWhichDoesNotExist() {
+		Role roleA = roleMap.get(1);
+		Role roleB = new Role.Builder().id(5).name("Assassin").build();
+
+		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleA);
+		Mockito.when(entityManager.merge(roleB)).thenReturn(roleB);
+
+		String reply = repo.updateRole(2, util.getJSONForObject(roleB));
+		assertEquals(Constants.ROLE_NOT_FOUND, reply);
 	}
 
 	@Test
