@@ -111,4 +111,13 @@ public class GameModeDatabaseRepositoryTest {
 		assertEquals(Constants.GAMEMODE_NOT_FOUND, reply);
 	}
 
+	@Test
+	public void testCheckDamageTypeExists() {
+		boolean res;
+		res = repo.checkGameModeExists(1);
+		assertEquals(false, res);
+		Mockito.when(entityManager.find(GameMode.class, 1)).thenReturn(gameModeMap.get(1));
+		res = repo.checkGameModeExists(1);
+		assertEquals(true, res);
+	}
 }
