@@ -87,4 +87,33 @@ public class DamageTypeDatabaseRepositoryTest {
 		assertEquals(Constants.CREATE_DAMAGETYPE_SUCCESS, reply);
 	}
 
+	@Test
+	public void testUpdateDamageTypeWhichDoesExist() {
+		DamageType damageTypeA = damageTypeMap.get(1);
+		DamageType damageTypeB = new DamageType.Builder().id(2).name("Physical").build();
+
+		Mockito.when(entityManager.find(DamageType.class, 1)).thenReturn(damageTypeA);
+		Mockito.when(entityManager.merge(damageTypeB)).thenReturn(damageTypeB);
+
+		String reply = repo.updateDamageType(1, util.getJSONForObject(damageTypeB));
+		Mockito.verify(entityManager, Mockito.times(1)).merge(damageTypeA);
+
+		DamageType damageTypeFromManager = entityManager.find(DamageType.class, 1);
+
+		assertEquals(damageTypeB.getName(), damageTypeFromManager.getName());
+		assertEquals(Constants.UPDATE_DAMAGETYPE_SUCCESS, reply);
+	}
+
+	@Test
+	public void testUpdateDamageTypeWhichDoesNotExist() {
+		DamageType damageTypeA = damageTypeMap.get(1);
+		DamageType damageTypeB = new DamageType.Builder().id(2).name("Physical").build();
+
+		Mockito.when(entityManager.find(DamageType.class, 1)).thenReturn(damageTypeA);
+		Mockito.when(entityManager.merge(damageTypeB)).thenReturn(damageTypeB);
+
+		String reply = repo.updateDamageType(2, util.getJSONForObject(damageTypeB));
+		assertEquals(Constants.DAMAGETYPE_NOT_FOUND, reply);
+	}
+
 }
