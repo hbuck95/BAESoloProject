@@ -83,4 +83,10 @@ public class ChampionGameModeStatsDatabaseRepositoryTest {
 		assertEquals(Constants.STATS_NOT_FOUND, reply);
 	}
 
+	@Test
+	public void testCreateStats() {
+		String reply = repo.createChampionGameModeStats(MOCK_STAT_OBJECT);
+		assertEquals(Constants.CREATE_STATS_SUCCESS, reply);
+	}
+
 }
