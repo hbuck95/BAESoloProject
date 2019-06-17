@@ -13,7 +13,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import com.bae.persistence.domain.ChampionGameModeStats;
@@ -31,8 +31,7 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 
 	@Override
 	public String getAllChampionGameModeStats() {
-		TypedQuery<ChampionGameModeStats> query = entityManager.createQuery("SELECT gms FROM ChampionGameModeStats gms",
-				ChampionGameModeStats.class);
+		Query query = entityManager.createQuery("SELECT gms FROM ChampionGameModeStats gms");
 		Collection<ChampionGameModeStats> championGameModeStats = query.getResultList();
 		return util.getJSONForObject(championGameModeStats);
 	}
@@ -86,8 +85,15 @@ public class ChampionGameModeStatsDatabaseRepository implements ChampionGameMode
 		return util.getJSONForObject((ChampionGameModeStats) entityManager.find(ChampionGameModeStats.class, id));
 	}
 
-	private boolean checkGameModeStatsExist(int id) {
+	public boolean checkGameModeStatsExist(int id) {
 		return entityManager.find(ChampionGameModeStats.class, id) != null;
 	}
 
+	public void setUtil(JSONUtil util) {
+		this.util = util;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 }

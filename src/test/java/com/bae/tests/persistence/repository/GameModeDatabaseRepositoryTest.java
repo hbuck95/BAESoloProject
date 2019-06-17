@@ -112,7 +112,7 @@ public class GameModeDatabaseRepositoryTest {
 	}
 
 	@Test
-	public void testCheckDamageTypeExists() {
+	public void testCheckGameModeExists() {
 		boolean res;
 		res = repo.checkGameModeExists(1);
 		assertEquals(false, res);
