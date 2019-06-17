@@ -89,4 +89,26 @@ public class ChampionDatabaseRepositoryTest {
 		assertEquals(Constants.CREATE_CHAMPION_SUCCESS, reply);
 	}
 
+	@Test
+	public void testUpdateChampionWhichDoesExist() {
+		Mockito.when(entityManager.find(Champion.class, 1)).thenReturn(championMap.get(1));
+		Mockito.when(entityManager.merge(championB)).thenReturn(championB);
+
+		String reply = repo.updateChampion(1, util.getJSONForObject(championB));
+		Mockito.verify(entityManager, Mockito.times(1)).merge(championMap.get(1));
+
+		Champion championFromManager = entityManager.find(Champion.class, 1);
+
+		assertEquals(championB.getName(), championFromManager.getName());
+		assertEquals(Constants.UPDATE_CHAMPION_SUCCESS, reply);
+	}
+
+	@Test
+	public void testUpdateChampionWhichDoesNotExist() {
+		Mockito.when(entityManager.find(Champion.class, 1)).thenReturn(championMap.get(1));
+		Mockito.when(entityManager.merge(championB)).thenReturn(championB);
+		String reply = repo.updateChampion(2, util.getJSONForObject(championB));
+		assertEquals(Constants.CHAMPION_NOT_FOUND, reply);
+	}
+
 }
