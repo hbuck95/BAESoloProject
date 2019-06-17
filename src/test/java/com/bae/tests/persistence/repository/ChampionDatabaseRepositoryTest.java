@@ -19,6 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.bae.persistence.domain.Champion;
 import com.bae.persistence.repository.ChampionDatabaseRepository;
+import com.bae.util.Constants;
 import com.bae.util.JSONUtil;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -50,16 +51,36 @@ public class ChampionDatabaseRepositoryTest {
 	}
 
 	@Test
-	public void testGetAllGameModes() {
+	public void testGetAllChampions() {
 		Mockito.when(entityManager.createQuery(Mockito.anyString())).thenReturn(query);
 		Mockito.when(query.getResultList()).thenReturn(new ArrayList<Champion>(championMap.values()));
 		assertEquals(MOCK_CHAMPION_ARRAY, repo.getAllChampions());
 	}
 
 	@Test
-	public void testFindGameMode() {
+	public void testFindChampion() {
 		Mockito.when(entityManager.find(Champion.class, 1)).thenReturn(championMap.get(1));
 		assertEquals(MOCK_CHAMPION_OBJECT, repo.findChampion(1));
+	}
+
+	@Test
+	public void testDeleteChampionWhichDoesExist() {
+		Mockito.when(entityManager.find(Champion.class, 1)).thenReturn(championMap.get(1));
+
+		// Check the result of deleting an entity which does exist
+		entityManager.remove(championMap.get(1));
+		String reply = repo.deleteChampion(1);
+
+		assertEquals(Constants.DELETE_CHAMPION_SUCCESS, reply);
+	}
+
+	@Test
+	public void testDeleteChampionWhichDoesNotExist() {
+		Mockito.when(entityManager.find(Champion.class, 1)).thenReturn(championMap.get(1));
+
+		// Check the result of deleting an entity which doesn't exist
+		String reply = repo.deleteChampion(2);
+		assertEquals(Constants.CHAMPION_NOT_FOUND, reply);
 	}
 
 }
