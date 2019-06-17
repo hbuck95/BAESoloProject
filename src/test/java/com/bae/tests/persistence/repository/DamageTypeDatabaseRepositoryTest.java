@@ -19,6 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.bae.persistence.domain.DamageType;
 import com.bae.persistence.repository.DamageTypeDatabaseRepository;
+import com.bae.util.Constants;
 import com.bae.util.JSONUtil;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -58,6 +59,26 @@ public class DamageTypeDatabaseRepositoryTest {
 	public void testFindDamageType() {
 		Mockito.when(entityManager.find(DamageType.class, 1)).thenReturn(damageTypeMap.get(1));
 		assertEquals(MOCK_DAMAGETYPE_OBJECT, repo.findDamageType(1));
+	}
+
+	@Test
+	public void testDeleteDamageTypeWhichDoesExist() {
+		Mockito.when(entityManager.find(DamageType.class, 1)).thenReturn(damageTypeMap.get(1));
+
+		// Check the result of deleting a role which does exist
+		entityManager.remove(damageTypeMap.get(1));
+		String reply = repo.deleteDamageType(1);
+
+		assertEquals(Constants.DELETE_DAMAGETYPE_SUCCESS, reply);
+	}
+
+	@Test
+	public void testDeleteDamageTypeWhichDoesNotExist() {
+		Mockito.when(entityManager.find(DamageType.class, 1)).thenReturn(damageTypeMap.get(1));
+
+		// Check the result of deleting a role which doesn't exist
+		String reply = repo.deleteDamageType(2);
+		assertEquals(Constants.DAMAGETYPE_NOT_FOUND, reply);
 	}
 
 }
