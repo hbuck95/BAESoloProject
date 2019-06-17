@@ -89,4 +89,26 @@ public class GameModeDatabaseRepositoryTest {
 		assertEquals(Constants.CREATE_GAMEMODE_SUCCESS, reply);
 	}
 
+	@Test
+	public void testUpdateGameModeWhichDoesExist() {
+		Mockito.when(entityManager.find(GameMode.class, 1)).thenReturn(gameModeMap.get(1));
+		Mockito.when(entityManager.merge(gameModeB)).thenReturn(gameModeB);
+
+		String reply = repo.updateGameMode(1, util.getJSONForObject(gameModeB));
+		Mockito.verify(entityManager, Mockito.times(1)).merge(gameModeMap.get(1));
+
+		GameMode gameModeFromManager = entityManager.find(GameMode.class, 1);
+
+		assertEquals(gameModeB.getName(), gameModeFromManager.getName());
+		assertEquals(Constants.UPDATE_GAMEMODE_SUCCESS, reply);
+	}
+
+	@Test
+	public void testUpdateGameModeWhichDoesNotExist() {
+		Mockito.when(entityManager.find(GameMode.class, 1)).thenReturn(gameModeMap.get(1));
+		Mockito.when(entityManager.merge(gameModeB)).thenReturn(gameModeB);
+		String reply = repo.updateGameMode(2, util.getJSONForObject(gameModeB));
+		assertEquals(Constants.GAMEMODE_NOT_FOUND, reply);
+	}
+
 }
