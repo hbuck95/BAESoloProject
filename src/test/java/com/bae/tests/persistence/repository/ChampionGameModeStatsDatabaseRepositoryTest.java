@@ -19,6 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.bae.persistence.domain.ChampionGameModeStats;
 import com.bae.persistence.repository.ChampionGameModeStatsDatabaseRepository;
+import com.bae.util.Constants;
 import com.bae.util.JSONUtil;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -60,6 +61,26 @@ public class ChampionGameModeStatsDatabaseRepositoryTest {
 	public void testFindStats() {
 		Mockito.when(entityManager.find(ChampionGameModeStats.class, 1)).thenReturn(statMap.get(1));
 		assertEquals(MOCK_STAT_OBJECT, repo.findChampionGameModeStats(1));
+	}
+
+	@Test
+	public void testDeleteStatsWhichDoExist() {
+		Mockito.when(entityManager.find(ChampionGameModeStats.class, 1)).thenReturn(statMap.get(1));
+
+		// Check the result of deleting a mode which does exist
+		entityManager.remove(statMap.get(1));
+		String reply = repo.deleteChampionGameModeStats(1);
+
+		assertEquals(Constants.DELETE_STATS_SUCCESS, reply);
+	}
+
+	@Test
+	public void testDeleteStatsWhichDoNotExist() {
+		Mockito.when(entityManager.find(ChampionGameModeStats.class, 1)).thenReturn(statMap.get(1));
+
+		// Check the result of deleting a mode which doesn't exist
+		String reply = repo.deleteChampionGameModeStats(2);
+		assertEquals(Constants.STATS_NOT_FOUND, reply);
 	}
 
 }
