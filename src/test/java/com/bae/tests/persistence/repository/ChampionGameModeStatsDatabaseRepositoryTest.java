@@ -89,4 +89,28 @@ public class ChampionGameModeStatsDatabaseRepositoryTest {
 		assertEquals(Constants.CREATE_STATS_SUCCESS, reply);
 	}
 
+	@Test
+	public void testUpdateStatsWhichDoExist() {
+		Mockito.when(entityManager.find(ChampionGameModeStats.class, 1)).thenReturn(statMap.get(1));
+		Mockito.when(entityManager.merge(statsB)).thenReturn(statsB);
+
+		String reply = repo.updateChampionGameModeStats(1, util.getJSONForObject(statsB));
+		Mockito.verify(entityManager, Mockito.times(1)).merge(statMap.get(1));
+
+		ChampionGameModeStats statsFromManager = entityManager.find(ChampionGameModeStats.class, 1);
+
+		assertEquals(statsB.getBanRate(), statsFromManager.getBanRate(), 0.001);
+		assertEquals(statsB.getPickRate(), statsFromManager.getPickRate(), 0.001);
+		assertEquals(statsB.getWinRate(), statsFromManager.getWinRate(), 0.001);
+		assertEquals(Constants.UPDATE_STATS_SUCCESS, reply);
+	}
+
+	@Test
+	public void testUpdateStatsWhichDoNotExist() {
+		Mockito.when(entityManager.find(ChampionGameModeStats.class, 1)).thenReturn(statMap.get(1));
+		Mockito.when(entityManager.merge(statsB)).thenReturn(statsB);
+		String reply = repo.updateChampionGameModeStats(2, util.getJSONForObject(statsB));
+		assertEquals(Constants.STATS_NOT_FOUND, reply);
+	}
+
 }
