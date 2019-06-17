@@ -78,7 +78,12 @@ public class PantheonDatabaseRepositoryTest {
 		// Check the result of deleting a role which doesn't exist
 		String reply = repo.deletePantheon(2);
 		assertEquals(Constants.PANTHEON_NOT_FOUND, reply);
+	}
 
+	@Test
+	public void testCreatePantheon() {
+		String reply = repo.createPantheon(MOCK_PANTHEON_OBJECT);
+		assertEquals(Constants.CREATE_PANTHEON_SUCCESS, reply);
 	}
 
 }
