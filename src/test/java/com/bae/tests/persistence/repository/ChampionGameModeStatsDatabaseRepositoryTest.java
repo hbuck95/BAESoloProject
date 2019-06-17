@@ -113,4 +113,13 @@ public class ChampionGameModeStatsDatabaseRepositoryTest {
 		assertEquals(Constants.STATS_NOT_FOUND, reply);
 	}
 
+	@Test
+	public void testCheckStatsExists() {
+		boolean res;
+		res = repo.checkGameModeStatsExist(1);
+		assertEquals(false, res);
+		Mockito.when(entityManager.find(ChampionGameModeStats.class, 1)).thenReturn(statMap.get(1));
+		res = repo.checkGameModeStatsExist(1);
+		assertEquals(true, res);
+	}
 }
