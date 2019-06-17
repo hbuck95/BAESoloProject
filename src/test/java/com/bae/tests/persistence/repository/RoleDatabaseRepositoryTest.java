@@ -19,6 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.bae.persistence.domain.Role;
 import com.bae.persistence.repository.RoleDatabaseRepository;
+import com.bae.util.Constants;
 import com.bae.util.JSONUtil;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -63,17 +64,15 @@ public class RoleDatabaseRepositoryTest {
 	@Test
 	public void testDeleteRole() {
 		Role roleA = roleMap.get(1);
-
 		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleA);
 		entityManager.remove(roleA);
 		Mockito.verify(entityManager, Mockito.times(1)).remove(roleA);
+	}
 
-		// Mockito.when(repo.deleteRole(1)).thenReturn(Constants.DELETE_ROLE_SUCCESS);
-
-		// Mockito.verify(entityManager,
-		// Mockito.times(5)).remove(Constants.DELETE_ROLE_SUCCESS);
-		// assertEquals(Constants.DELETE_ROLE_SUCCESS, res);
-
+	@Test
+	public void testCreateRole() {
+		String reply = repo.createRole(MOCK_ROLE_OBJECT);
+		assertEquals(Constants.CREATE_ROLE_SUCCESS, reply);
 	}
 
 }
