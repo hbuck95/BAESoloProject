@@ -75,6 +75,23 @@ public class RoleDatabaseRepositoryTest {
 	}
 
 	@Test
+	public void testUpdateRole() {
+		Role roleA = roleMap.get(1);
+		Role roleB = new Role.Builder().id(5).name("Assassin").build();
+
+		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleA);
+		Mockito.when(entityManager.merge(roleB)).thenReturn(roleB);
+
+		String reply = repo.updateRole(1, util.getJSONForObject(roleB));
+		Mockito.verify(entityManager, Mockito.times(1)).merge(roleA);
+
+		Role roleFromManager = entityManager.find(Role.class, 1);
+
+		assertEquals(roleB.getName(), roleFromManager.getName());
+		assertEquals(Constants.UPDATE_ROLE_SUCCESS, reply);
+	}
+
+	@Test
 	public void testCheckRoleExists() {
 		boolean res;
 		res = repo.checkRoleExists(1);
