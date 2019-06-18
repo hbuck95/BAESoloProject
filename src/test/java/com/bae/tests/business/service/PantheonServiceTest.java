@@ -65,4 +65,18 @@ public class PantheonServiceTest {
 		Mockito.verify(repo).deletePantheon(1);
 	}
 
+	@Test
+	public void testUpdatePantheonDoesExist() {
+		Mockito.when(service.updatePantheon(1, MOCK_PANTHEON_OBJECT)).thenReturn(Constants.UPDATE_PANTHEON_SUCCESS);
+		assertEquals(Constants.UPDATE_PANTHEON_SUCCESS, service.updatePantheon(1, MOCK_PANTHEON_OBJECT));
+		Mockito.verify(repo).updatePantheon(1, MOCK_PANTHEON_OBJECT);
+	}
+
+	@Test
+	public void testUpdatePantheonDoesNotExist() {
+		Mockito.when(service.updatePantheon(1, MOCK_PANTHEON_OBJECT)).thenReturn(Constants.PANTHEON_NOT_FOUND);
+		assertEquals(Constants.PANTHEON_NOT_FOUND, service.updatePantheon(1, MOCK_PANTHEON_OBJECT));
+		Mockito.verify(repo).updatePantheon(1, MOCK_PANTHEON_OBJECT);
+	}
+
 }

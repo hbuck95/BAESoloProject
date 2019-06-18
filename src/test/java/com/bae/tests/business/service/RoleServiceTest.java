@@ -65,4 +65,18 @@ public class RoleServiceTest {
 		Mockito.verify(repo).deleteRole(1);
 	}
 
+	@Test
+	public void testUpdateRoleDoesExist() {
+		Mockito.when(service.updateRole(1, MOCK_ROLE_OBJECT)).thenReturn(Constants.UPDATE_ROLE_SUCCESS);
+		assertEquals(Constants.UPDATE_ROLE_SUCCESS, service.updateRole(1, MOCK_ROLE_OBJECT));
+		Mockito.verify(repo).updateRole(1, MOCK_ROLE_OBJECT);
+	}
+
+	@Test
+	public void testUpdateRoleDoesNotExist() {
+		Mockito.when(service.updateRole(1, MOCK_ROLE_OBJECT)).thenReturn(Constants.ROLE_NOT_FOUND);
+		assertEquals(Constants.ROLE_NOT_FOUND, service.updateRole(1, MOCK_ROLE_OBJECT));
+		Mockito.verify(repo).updateRole(1, MOCK_ROLE_OBJECT);
+	}
+
 }
