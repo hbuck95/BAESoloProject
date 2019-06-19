@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class FrontendUseCaseTest {
@@ -159,8 +160,70 @@ public class FrontendUseCaseTest {
 		assertEquals(hp, ele.getText());
 		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[104]/td[7]"));
 		assertEquals(damage, ele.getText());
+	}
 
-		// body();
+	@Test
+	public void useCase7() {// Add stats for a character
+		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[3]")).click();
+		assertEquals(ROOT_LOCATION + "stats.html", driver.getCurrentUrl());
+
+		WebElement ele;
+		String name = "Sylvanus";
+		String gamemode = "Duel";
+		String win = "21.92";
+		String pick = "13.67";
+		String ban = "0.26";
+
+		// Wait until the page has loaded
+		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id("new-btn")));
+		ele.click();
+
+		// Wait until the modal has loaded
+		ele = (new WebDriverWait(driver, 15))
+				.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
+
+		// Select and enter the values
+		ele = driver.findElement(By.id("new-champion-selection"));
+		Select selector = new Select(ele);
+		selector.selectByVisibleText(name);
+
+		ele = driver.findElement(By.id("new-gamemode-selection"));
+		selector = new Select(ele);
+		selector.selectByVisibleText(gamemode);
+
+		ele = driver.findElement(By.id("newpickrate"));
+		ele.sendKeys(pick);
+
+		ele = driver.findElement(By.id("newbanrate"));
+		ele.sendKeys(ban);
+
+		ele = driver.findElement(By.id("newwinrate"));
+		ele.sendKeys(win);
+
+		// Submit the details
+		driver.findElement(By.id("new-submit-btn")).click();
+
+		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
+				.until(ExpectedConditions.alertIsPresent());
+
+		// Confirm that the alert message is success
+		assertEquals("New stats successfully added!", driver.switchTo().alert().getText());
+		driver.switchTo().alert().accept();
+
+		// Wait for the element to load
+		ele = (new WebDriverWait(driver, 15))
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"tbl\"]/tbody/tr[310]/td[2]")));
+
+		// Check that it was created correctly
+		assertEquals(name, ele.getText());
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[310]/td[3]"));
+		assertEquals(gamemode, ele.getText());
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[310]/td[4]"));
+		assertEquals(win, ele.getText());
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[310]/td[5]"));
+		assertEquals(pick, ele.getText());
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[310]/td[6]"));
+		assertEquals(ban, ele.getText());
 	}
 
 	public void body() {
