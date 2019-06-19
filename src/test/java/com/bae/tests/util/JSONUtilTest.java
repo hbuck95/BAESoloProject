@@ -1,4 +1,4 @@
-package com.bae.tests;
+package com.bae.tests.util;
 
 import static org.junit.Assert.assertEquals;
 

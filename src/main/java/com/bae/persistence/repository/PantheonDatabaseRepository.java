@@ -13,7 +13,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import com.bae.persistence.domain.Pantheon;
@@ -31,7 +31,7 @@ public class PantheonDatabaseRepository implements PantheonRepository {
 
 	@Override
 	public String getAllPantheons() {
-		TypedQuery<Pantheon> query = entityManager.createQuery("SELECT p FROM Pantheon p", Pantheon.class);
+		Query query = entityManager.createQuery("SELECT p FROM Pantheon p");
 		Collection<Pantheon> pantheons = query.getResultList();
 		return util.getJSONForObject(pantheons);
 	}
@@ -82,8 +82,16 @@ public class PantheonDatabaseRepository implements PantheonRepository {
 		return util.getJSONForObject((Pantheon) entityManager.find(Pantheon.class, id));
 	}
 
-	private boolean checkPantheonExists(int id) {
+	public boolean checkPantheonExists(int id) {
 		return entityManager.find(Pantheon.class, id) != null;
+	}
+
+	public void setUtil(JSONUtil util) {
+		this.util = util;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 }

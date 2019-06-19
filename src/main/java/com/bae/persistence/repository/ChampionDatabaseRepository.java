@@ -13,7 +13,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import com.bae.persistence.domain.Champion;
@@ -31,7 +31,7 @@ public class ChampionDatabaseRepository implements ChampionRepository {
 
 	@Override
 	public String getAllChampions() {
-		TypedQuery<Champion> query = entityManager.createQuery("SELECT c FROM Champion c", Champion.class);
+		Query query = entityManager.createQuery("SELECT c FROM Champion c");
 		Collection<Champion> accounts = query.getResultList();
 		return util.getJSONForObject(accounts);
 	}
@@ -90,8 +90,16 @@ public class ChampionDatabaseRepository implements ChampionRepository {
 		return util.getJSONForObject((Champion) entityManager.find(Champion.class, id));
 	}
 
-	private boolean checkChampionExists(int id) {
+	public boolean checkChampionExists(int id) {
 		return entityManager.find(Champion.class, id) != null;
+	}
+
+	public void setUtil(JSONUtil util) {
+		this.util = util;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 }

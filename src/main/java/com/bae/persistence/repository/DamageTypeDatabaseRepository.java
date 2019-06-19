@@ -13,7 +13,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import com.bae.persistence.domain.DamageType;
@@ -31,7 +31,7 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 
 	@Override
 	public String getAllDamageTypes() {
-		TypedQuery<DamageType> query = entityManager.createQuery("SELECT dt FROM DamageType dt", DamageType.class);
+		Query query = entityManager.createQuery("SELECT dt FROM DamageType dt");
 		Collection<DamageType> damageTypes = query.getResultList();
 		return util.getJSONForObject(damageTypes);
 	}
@@ -81,8 +81,16 @@ public class DamageTypeDatabaseRepository implements DamageTypeRepository {
 		return util.getJSONForObject((DamageType) entityManager.find(DamageType.class, id));
 	}
 
-	private boolean checkDamageTypeExists(int id) {
+	public boolean checkDamageTypeExists(int id) {
 		return entityManager.find(DamageType.class, id) != null;
+	}
+
+	public void setUtil(JSONUtil util) {
+		this.util = util;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 }

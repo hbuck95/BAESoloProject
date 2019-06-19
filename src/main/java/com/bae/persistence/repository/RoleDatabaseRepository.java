@@ -13,7 +13,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import com.bae.persistence.domain.Role;
@@ -31,7 +31,7 @@ public class RoleDatabaseRepository implements RoleRepository {
 
 	@Override
 	public String getAllRoles() {
-		TypedQuery<Role> query = entityManager.createQuery("SELECT r FROM Role r", Role.class);
+		Query query = entityManager.createQuery("SELECT r FROM Role r");
 		Collection<Role> roles = query.getResultList();
 		return util.getJSONForObject(roles);
 	}
@@ -80,8 +80,16 @@ public class RoleDatabaseRepository implements RoleRepository {
 		return util.getJSONForObject((Role) entityManager.find(Role.class, id));
 	}
 
-	private boolean checkRoleExists(int id) {
+	public boolean checkRoleExists(int id) {
 		return entityManager.find(Role.class, id) != null;
+	}
+
+	public void setUtil(JSONUtil util) {
+		this.util = util;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 }

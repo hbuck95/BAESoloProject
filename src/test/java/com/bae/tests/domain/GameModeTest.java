@@ -16,10 +16,7 @@ public class GameModeTest {
 	@Before
 	public void setup() {
 		json = new JSONUtil();
-		gameMode = new GameMode.Builder()
-				.id(1)
-				.name("Conquest")
-				.build();
+		gameMode = new GameMode.Builder().id(1).name("Conquest").build();
 		gameModeAJson = "{\"id\":1,\"name\":\"Conquest\"}";
 	}
 
@@ -35,15 +32,28 @@ public class GameModeTest {
 		assertEquals("Conquest", gameModeFromJson.getName());
 		assertEquals(1, gameModeFromJson.getId());
 	}
-	
+
 	@Test
 	public void testGameModeBuilder() {
-		GameMode gameMode = new GameMode.Builder()
-				.id(2)
-				.name("Joust")
-				.build();
-		
-		assertEquals(2, gameMode.getId());
-		assertEquals("Joust", gameMode.getName());
+		GameMode mode = new GameMode.Builder().id(2).name("Joust").build();
+
+		assertEquals(2, mode.getId());
+		assertEquals("Joust", mode.getName());
+	}
+
+	@Test
+	public void testSetName() {
+		gameMode.setName("Assault");
+		assertEquals("Assault", gameMode.getName());
+	}
+
+	@Test
+	public void testGetName() {
+		assertEquals("Conquest", gameMode.getName());
+	}
+
+	@Test
+	public void testGetId() {
+		assertEquals(1, gameMode.getId());
 	}
 }

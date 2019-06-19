@@ -13,7 +13,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import com.bae.persistence.domain.GameMode;
@@ -31,7 +31,7 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 
 	@Override
 	public String getAllGameModes() {
-		TypedQuery<GameMode> query = entityManager.createQuery("SELECT g FROM GameMode g", GameMode.class);
+		Query query = entityManager.createQuery("SELECT g FROM GameMode g");
 		Collection<GameMode> gameModes = query.getResultList();
 		return util.getJSONForObject(gameModes);
 	}
@@ -81,8 +81,16 @@ public class GameModeDatabaseRepository implements GameModeRepository {
 		return util.getJSONForObject((GameMode) entityManager.find(GameMode.class, id));
 	}
 
-	private boolean checkGameModeExists(int id) {
+	public boolean checkGameModeExists(int id) {
 		return entityManager.find(GameMode.class, id) != null;
+	}
+
+	public void setUtil(JSONUtil util) {
+		this.util = util;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 }
