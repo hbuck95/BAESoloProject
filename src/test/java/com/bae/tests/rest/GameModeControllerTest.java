@@ -33,21 +33,21 @@ public class GameModeControllerTest {
 
 	@Test
 	public void testGetAllGameModes() {
-		Mockito.when(controller.getAllGameModes()).thenReturn(MOCK_GAMEMODE_ARRAY);
+		Mockito.when(service.getAllGameModes()).thenReturn(MOCK_GAMEMODE_ARRAY);
 		assertEquals(MOCK_GAMEMODE_ARRAY, controller.getAllGameModes());
 		Mockito.verify(service).getAllGameModes();
 	}
 
 	@Test
 	public void testFindGameModeExists() {
-		Mockito.when(controller.getGameMode(1)).thenReturn(MOCK_GAMEMODE_OBJECT);
+		Mockito.when(service.findGameMode(1)).thenReturn(MOCK_GAMEMODE_OBJECT);
 		assertEquals(MOCK_GAMEMODE_OBJECT, controller.getGameMode(1));
 		Mockito.verify(service).findGameMode(1);
 	}
 
 	@Test
 	public void testFindGameModeDoesNotExist() {
-		Mockito.when(controller.getGameMode(1)).thenReturn(Constants.GAMEMODE_NOT_FOUND);
+		Mockito.when(service.findGameMode(1)).thenReturn(Constants.GAMEMODE_NOT_FOUND);
 		assertEquals(Constants.GAMEMODE_NOT_FOUND, controller.getGameMode(1));
 		Mockito.verify(service).findGameMode(1);
 	}
