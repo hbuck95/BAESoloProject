@@ -57,9 +57,16 @@ public class PantheonDatabaseRepositoryTest {
 	}
 
 	@Test
-	public void testFindPantheon() {
+	public void testFindPantheonWhichDoesExist() {
 		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonMap.get(1));
 		assertEquals(MOCK_PANTHEON_OBJECT, repo.findPantheon(1));
+	}
+
+	@Test
+	public void testFindPantheonWhichDoesNotExist() {
+		Mockito.when(entityManager.find(Pantheon.class, 1)).thenReturn(pantheonMap.get(1));
+		String reply = repo.findPantheon(2);
+		assertEquals(Constants.PANTHEON_NOT_FOUND, reply);
 	}
 
 	@Test

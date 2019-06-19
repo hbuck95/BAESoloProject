@@ -58,9 +58,16 @@ public class RoleDatabaseRepositoryTest {
 	}
 
 	@Test
-	public void testFindRole() {
+	public void testFindRoleWhichDoesExist() {
 		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleMap.get(1));
 		assertEquals(MOCK_ROLE_OBJECT, repo.findRole(1));
+	}
+
+	@Test
+	public void testFindRoleWhichDoesNotExist() {
+		Mockito.when(entityManager.find(Role.class, 1)).thenReturn(roleMap.get(1));
+		String reply = repo.findRole(2);
+		assertEquals(Constants.ROLE_NOT_FOUND, reply);
 	}
 
 	@Test

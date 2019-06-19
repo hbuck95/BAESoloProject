@@ -58,9 +58,17 @@ public class ChampionDatabaseRepositoryTest {
 	}
 
 	@Test
-	public void testFindChampion() {
+	public void testFindChampionWhichDoesExist() {
 		Mockito.when(entityManager.find(Champion.class, 1)).thenReturn(championMap.get(1));
 		assertEquals(MOCK_CHAMPION_OBJECT, repo.findChampion(1));
+	}
+
+	@Test
+	public void testFindChampionWhichDoesNotExist() {
+		Mockito.when(entityManager.find(Champion.class, 1)).thenReturn(championMap.get(1));
+		String reply = repo.findChampion(2);
+		assertEquals(Constants.CHAMPION_NOT_FOUND, reply);
+
 	}
 
 	@Test

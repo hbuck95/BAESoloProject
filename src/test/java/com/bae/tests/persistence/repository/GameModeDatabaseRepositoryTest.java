@@ -58,9 +58,16 @@ public class GameModeDatabaseRepositoryTest {
 	}
 
 	@Test
-	public void testFindGameMode() {
+	public void testFindGameModeDoesExist() {
 		Mockito.when(entityManager.find(GameMode.class, 1)).thenReturn(gameModeMap.get(1));
 		assertEquals(MOCK_GAMEMODE_OBJECT, repo.findGameMode(1));
+	}
+
+	@Test
+	public void testFindGameModeDoesNotExist() {
+		Mockito.when(entityManager.find(GameMode.class, 1)).thenReturn(gameModeMap.get(1));
+		String reply = repo.findGameMode(2);
+		assertEquals(Constants.GAMEMODE_NOT_FOUND, reply);
 	}
 
 	@Test

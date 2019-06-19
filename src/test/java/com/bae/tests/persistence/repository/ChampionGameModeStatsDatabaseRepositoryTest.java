@@ -58,9 +58,17 @@ public class ChampionGameModeStatsDatabaseRepositoryTest {
 	}
 
 	@Test
-	public void testFindStats() {
+	public void testFindStatsWhichExist() {
 		Mockito.when(entityManager.find(ChampionGameModeStats.class, 1)).thenReturn(statMap.get(1));
 		assertEquals(MOCK_STAT_OBJECT, repo.findChampionGameModeStats(1));
+	}
+
+	@Test
+	public void testFindStatsWhichDoNotExist() {
+		Mockito.when(entityManager.find(ChampionGameModeStats.class, 1)).thenReturn(statMap.get(1));
+		String reply = repo.findChampionGameModeStats(2);
+		assertEquals(Constants.STATS_NOT_FOUND, reply);
+
 	}
 
 	@Test
