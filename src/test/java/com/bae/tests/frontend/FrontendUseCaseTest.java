@@ -2,6 +2,8 @@ package com.bae.tests.frontend;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -39,6 +41,7 @@ public class FrontendUseCaseTest {
 
 	@Before
 	public void init() {
+		driver.manage().window().maximize();
 		driver.get(INDEX_LOCATION);
 	}
 
@@ -259,6 +262,87 @@ public class FrontendUseCaseTest {
 		ele = (new WebDriverWait(driver, 15))
 				.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"tbl\"]/tbody/tr[4]/td[2]")));
 		assertEquals(newModeName, ele.getText());
+
+	}
+
+	@Test
+	public void useCase9() { // Update a characters details when they are changed
+		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[2]")).click();
+		assertEquals(ROOT_LOCATION + "champions.html", driver.getCurrentUrl());
+
+		WebElement ele;
+		String pantheon = "Polynesian";
+		String role = "Assassin";
+		String damageType = "Magical";
+		String hp = "320";
+		String damage = "39";
+
+		List<WebElement> eles = (new WebDriverWait(driver, 15))
+				.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@id=\"96\"]")));
+		eles.get(1).click();
+		System.out.println(eles.get(1).getText());
+
+		// Select and enter the values
+		// Wait until the modal has loaded
+		ele = (new WebDriverWait(driver, 15))
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"submit-btn\"]")));
+
+		ele = driver.findElement(By.id("role-selection"));
+		Select selector = new Select(ele);
+		selector.selectByVisibleText(role);
+		// System.out.println(selector.getAllSelectedOptions());
+		// selector.getAllSelectedOptions().forEach(System.out::println);
+		// selector.selectByIndex(3);
+
+		// Select and enter the values
+		ele = driver.findElement(By.id("pantheon-selection"));
+		selector = new Select(ele);
+		selector.selectByVisibleText(pantheon);
+
+		// Select and enter the values
+		ele = driver.findElement(By.id("damage-selection"));
+		selector = new Select(ele);
+		selector.selectByVisibleText(damageType);
+
+		ele = driver.findElement(By.id("hp"));
+		ele.clear();
+		ele.sendKeys(hp);
+
+		ele = driver.findElement(By.id("damage"));
+		ele.clear();
+		ele.sendKeys(damage);
+
+		driver.findElement(By.id("submit-btn")).click();
+
+		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
+				.until(ExpectedConditions.alertIsPresent());
+
+		// Are you sure you want to update this record?
+		driver.switchTo().alert().accept();// yes
+
+		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
+				.until(ExpectedConditions.alertIsPresent());
+
+		// Confirm that the alert message is success
+		assertEquals("The specified champion has successfuly been updated", driver.switchTo().alert().getText());
+		driver.switchTo().alert().accept();
+
+		(new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"96\"]")));
+
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[96]/td[3]"));
+		assertEquals(role, ele.getText());
+
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[96]/td[4]"));
+		assertEquals(pantheon, ele.getText());
+
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[96]/td[5]"));
+		assertEquals(damageType, ele.getText());
+
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[96]/td[6]"));
+		assertEquals(hp, ele.getText());
+
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[96]/td[7]"));
+		assertEquals(damage, ele.getText());
 
 	}
 
