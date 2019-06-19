@@ -226,6 +226,42 @@ public class FrontendUseCaseTest {
 		assertEquals(ban, ele.getText());
 	}
 
+	@Test
+	public void useCase8() {// create a new game mode
+		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[6]")).click();
+		assertEquals(ROOT_LOCATION + "gamemodes.html", driver.getCurrentUrl());
+
+		WebElement ele;
+		String newModeName = "Assault";
+
+		// Wait until the page has loaded
+		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id("new-btn")));
+		ele.click();
+
+		// Wait until the modal has loaded
+		ele = (new WebDriverWait(driver, 15))
+				.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
+
+		// Select and enter the values
+		ele = driver.findElement(By.id("new-gamemode-name"));
+		ele.sendKeys(newModeName);
+
+		// Submit the details
+		driver.findElement(By.id("new-submit-btn")).click();
+
+		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
+				.until(ExpectedConditions.alertIsPresent());
+
+		// Confirm that the alert message is success
+		assertEquals("Game mode successfully created!", driver.switchTo().alert().getText());
+		driver.switchTo().alert().accept();
+
+		ele = (new WebDriverWait(driver, 15))
+				.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"tbl\"]/tbody/tr[4]/td[2]")));
+		assertEquals(newModeName, ele.getText());
+
+	}
+
 	public void body() {
 
 		// The rendered table body.
