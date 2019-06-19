@@ -20,7 +20,7 @@ public class DamageTypeController {
 	@Path("/getAllDamageTypes")
 	@GET
 	@Produces({ "application/json" })
-	public String getAllChampions() {
+	public String getAllDamageTypes() {
 		return service.getAllDamageTypes();
 	}
 
