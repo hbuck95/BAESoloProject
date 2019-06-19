@@ -174,11 +174,6 @@
 
 <!-- https://mvnrepository.com/artifact/com.github.detro.ghostdriver/phantomjsdriver -->
 <dependency>
-    <groupId>com.github.detro.ghostdriver</groupId>
-    <artifactId>phantomjsdriver</artifactId>
-    <version>1.1.0</version>
-</dependency>
-<dependency>
     <groupId>org.seleniumhq.selenium</groupId>
     <artifactId>selenium-chrome-driver</artifactId>
 </dependency>
@@ -189,14 +184,7 @@
 <dependency>
     <groupId>org.seleniumhq.selenium</groupId>
     <artifactId>selenium-java</artifactId>
-</dependency>
-<!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
-<dependency>
-    <groupId>io.github.bonigarcia</groupId>
-    <artifactId>webdrivermanager</artifactId>
-    <version>3.3.0</version>
-</dependency>
-	
+</dependency>	
     </dependencies>
     
     <profiles>
