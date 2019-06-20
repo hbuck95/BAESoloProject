@@ -22,7 +22,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class FrontendUseCaseTest {
 
 	private static WebDriver driver;
-	private static final String ROOT_LOCATION = "http://34.77.62.121:8888/BAESoloProject/";
+	private static final String ROOT_LOCATION = "http://35.195.164.190:8888/BAESoloProject/";
 	private static final String INDEX_LOCATION = ROOT_LOCATION + "index.html";
 
 	@BeforeClass
@@ -41,19 +41,18 @@ public class FrontendUseCaseTest {
 
 	@Before
 	public void init() {
-		driver.manage().window().maximize();
 		driver.get(INDEX_LOCATION);
 	}
 
 	@Test
-	public void useCase1() {// View all champions
+	public void useCase01() {// View all champions
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[2]")).click();
 		assertEquals(ROOT_LOCATION + "champions.html", driver.getCurrentUrl());
 		body();
 	}
 
 	@Test
-	public void useCase2() {// View all playable character classes (roles)
+	public void useCase02() {// View all playable character classes (roles)
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[4]")).click();
 		assertEquals(ROOT_LOCATION + "roles.html", driver.getCurrentUrl());
 		body();
@@ -61,7 +60,7 @@ public class FrontendUseCaseTest {
 	}
 
 	@Test
-	public void useCase3() {// View included pantheons
+	public void useCase03() {// View included pantheons
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[5]")).click();
 		assertEquals(ROOT_LOCATION + "pantheons.html", driver.getCurrentUrl());
 		body();
@@ -69,7 +68,7 @@ public class FrontendUseCaseTest {
 	}
 
 	@Test
-	public void useCase4() {// View game modes
+	public void useCase04() {// View game modes
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[6]")).click();
 		assertEquals(ROOT_LOCATION + "gamemodes.html", driver.getCurrentUrl());
 		body();
@@ -77,14 +76,14 @@ public class FrontendUseCaseTest {
 	}
 
 	@Test
-	public void useCase5() {// View all recorded stats
+	public void useCase05() {// View all recorded stats
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[3]")).click();
 		assertEquals(ROOT_LOCATION + "stats.html", driver.getCurrentUrl());
 		body();
 	}
 
 	@Test
-	public void useCase6() { // Add a new champions details
+	public void useCase06() { // Add a new champions details
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[2]")).click();
 		assertEquals(ROOT_LOCATION + "champions.html", driver.getCurrentUrl());
 
@@ -101,8 +100,7 @@ public class FrontendUseCaseTest {
 		ele.click();
 
 		// Wait until the modal has loaded
-		new WebDriverWait(driver, 15)
-				.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
+		new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
 
 		// Send the values for the new champion
 		ele = driver.findElement(By.id("new-name"));
@@ -148,7 +146,7 @@ public class FrontendUseCaseTest {
 		driver.switchTo().alert().accept();
 
 		// Wait for the element to load
-		new WebDriverWait(driver, 15)).until(ExpectedConditions.visibilityOfElementLocated(By.id("104"));
+		new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOfElementLocated(By.id("104")));
 
 		// Check that it was created correctly
 		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[104]/td[2]"));
@@ -166,7 +164,7 @@ public class FrontendUseCaseTest {
 	}
 
 	@Test
-	public void useCase7() {// Add stats for a character
+	public void useCase07() {// Add stats for a character
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[3]")).click();
 		assertEquals(ROOT_LOCATION + "stats.html", driver.getCurrentUrl());
 
@@ -229,7 +227,7 @@ public class FrontendUseCaseTest {
 	}
 
 	@Test
-	public void useCase8() {// create a new game mode
+	public void useCase08() {// create a new game mode
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[6]")).click();
 		assertEquals(ROOT_LOCATION + "gamemodes.html", driver.getCurrentUrl());
 
@@ -264,7 +262,7 @@ public class FrontendUseCaseTest {
 	}
 
 	@Test
-	public void useCase9() { // Update a characters details when they are changed
+	public void useCase09() { // Update a characters details when they are changed
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[2]")).click();
 		assertEquals(ROOT_LOCATION + "champions.html", driver.getCurrentUrl());
 
@@ -346,7 +344,50 @@ public class FrontendUseCaseTest {
 
 	@Test
 	public void useCase10() { // Delete a character and their stats from the database
+		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[3]")).click();
+		assertEquals(ROOT_LOCATION + "stats.html", driver.getCurrentUrl());
 
+		WebElement ele = null;
+
+		// Delete all 3 records (one record for each game mode)
+		for (int i = 0; i < 3; i++) {
+			// Wait until the delete button has loaded and then click it
+			ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions
+					.presenceOfElementLocated(By.xpath("//*[@id=\"tbl\"]/tbody/tr[1]/td[7]/button[2]")));
+			ele.click();
+			deleteRecord();
+			// Confirm that the alert message is success
+			assertEquals("The specified stats have successfully been deleted", driver.switchTo().alert().getText());
+			driver.switchTo().alert().accept();
+		}
+
+		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[2]")).click();
+		assertEquals(ROOT_LOCATION + "champions.html", driver.getCurrentUrl());
+
+		// Get the champion
+		ele = (new WebDriverWait(driver, 15)).until(
+				ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"tbl\"]/tbody/tr[1]/td[8]/button[2]")));
+		ele.click();
+
+		// Delete them
+		deleteRecord();
+
+		// Confirm the delete message
+		assertEquals("The specified champion has successfully been deleted", driver.switchTo().alert().getText());
+		driver.switchTo().alert().accept();// confirm
+
+	}
+
+	public void deleteRecord() {
+		// Wait until the confirmation alert shows up
+		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
+				.until(ExpectedConditions.alertIsPresent());
+
+		// Are you sure you want to delete this record?
+		driver.switchTo().alert().accept();// yes
+
+		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
+				.until(ExpectedConditions.alertIsPresent());
 	}
 
 	public void body() {
