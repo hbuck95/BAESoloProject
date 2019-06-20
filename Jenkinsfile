@@ -13,7 +13,7 @@ pipeline{
                 }
 				stage('--webapp--'){
 						steps{
-								sh "sudo cp -r /home/h_a_buck_1995/BAESoloProjectFrontEnd/* /var/lib/jenkins/workspace/SoloProject/src/main/webapp"
+								sh "sudo cp -r /home/h_a_buck_1995/BAESoloProjectFrontEnd/* /var/lib/jenkins/workspace/SoloProjectPipe/src/main/webapp"
 						}
 				}
 				stage('--package--'){
@@ -39,7 +39,7 @@ pipeline{
                 }
 		stage('--deploy--'){
                         steps{
-				sh "sudo cp -r /var/lib/jenkins/workspace/SoloProject/target/BAESoloProject.war /home/h_a_buck_1995/wildfly-10.1.0.Final/standalone/deployments/"
+				sh "sudo cp -r /var/lib/jenkins/workspace/SoloProjectPipe/target/BAESoloProject.war /home/h_a_buck_1995/wildfly-10.1.0.Final/standalone/deployments/"
                         }
                 }
         }
