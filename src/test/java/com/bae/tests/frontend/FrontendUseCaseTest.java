@@ -22,16 +22,28 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class FrontendUseCaseTest {
 
 	private static WebDriver driver;
-	private static final String ROOT_LOCATION = "http://35.195.164.190:8888/BAESoloProject/";
+	private static final String ROOT_LOCATION = "http://34.77.194.157:8888/BAESoloProject/";
 	private static final String INDEX_LOCATION = ROOT_LOCATION + "index.html";
+	private static final String NEW_RECORD_BTN = "new-btn";
+	private static final String NEW_SUBMIT_BTN = "new-submit-btn";
+	private static final String UPDATE_SUBMIT_BTN = "submit-btn";
+	private static final String ROLES = "roles.html";
+	private static final String CHAMPIONS = "champions.html";
+	private static final String STATS = "stats.html";
+	private static final String PANTHEONS = "pantheons.html";
+	private static final String GAMEMODES = "gamemodes.html";
 
 	@BeforeClass
 	public static void setup() {
-		System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+		// System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+		System.setProperty("webdriver.chrome.driver", "C:/chromedriver.exe");
+
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("headless");
-		// options.addArguments("window-size=1200x600");
-		options.addArguments("--no-sandbox");
+
+		options.addArguments("window-size=1200x600");
+//        chromeOptions.addArguments("window-size=1400,2100"); // linux should be activate
+
 		driver = new ChromeDriver(options);
 	}
 
@@ -48,14 +60,14 @@ public class FrontendUseCaseTest {
 	@Test
 	public void useCase01() {// View all champions
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[2]")).click();
-		assertEquals(ROOT_LOCATION + "champions.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + CHAMPIONS, driver.getCurrentUrl());
 		body();
 	}
 
 	@Test
 	public void useCase02() {// View all playable character classes (roles)
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[4]")).click();
-		assertEquals(ROOT_LOCATION + "roles.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + ROLES, driver.getCurrentUrl());
 		body();
 
 	}
@@ -63,7 +75,7 @@ public class FrontendUseCaseTest {
 	@Test
 	public void useCase03() {// View included pantheons
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[5]")).click();
-		assertEquals(ROOT_LOCATION + "pantheons.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + PANTHEONS, driver.getCurrentUrl());
 		body();
 
 	}
@@ -71,7 +83,7 @@ public class FrontendUseCaseTest {
 	@Test
 	public void useCase04() {// View game modes
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[6]")).click();
-		assertEquals(ROOT_LOCATION + "gamemodes.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + GAMEMODES, driver.getCurrentUrl());
 		body();
 
 	}
@@ -79,14 +91,14 @@ public class FrontendUseCaseTest {
 	@Test
 	public void useCase05() {// View all recorded stats
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[3]")).click();
-		assertEquals(ROOT_LOCATION + "stats.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + STATS, driver.getCurrentUrl());
 		body();
 	}
 
 	@Test
 	public void useCase06() { // Add a new champions details
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[2]")).click();
-		assertEquals(ROOT_LOCATION + "champions.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + CHAMPIONS, driver.getCurrentUrl());
 
 		WebElement ele;
 		String name = "Fred";
@@ -97,11 +109,11 @@ public class FrontendUseCaseTest {
 		String damage = "32";
 
 		// Wait until the page has loaded
-		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id("new-btn")));
+		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id(NEW_RECORD_BTN)));
 		ele.click();
 
 		// Wait until the modal has loaded
-		new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
+		new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOfElementLocated(By.id(NEW_SUBMIT_BTN)));
 
 		// Send the values for the new champion
 		ele = driver.findElement(By.id("new-name"));
@@ -137,7 +149,7 @@ public class FrontendUseCaseTest {
 		ele.sendKeys(damage);
 		assertEquals(damage, ele.getAttribute("value"));
 
-		driver.findElement(By.id("new-submit-btn")).click();
+		driver.findElement(By.id(NEW_SUBMIT_BTN)).click();
 
 		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
 				.until(ExpectedConditions.alertIsPresent());
@@ -167,7 +179,7 @@ public class FrontendUseCaseTest {
 	@Test
 	public void useCase07() {// Add stats for a character
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[3]")).click();
-		assertEquals(ROOT_LOCATION + "stats.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + STATS, driver.getCurrentUrl());
 
 		WebElement ele;
 		String name = "Sylvanus";
@@ -177,11 +189,11 @@ public class FrontendUseCaseTest {
 		String ban = "0.26";
 
 		// Wait until the page has loaded
-		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id("new-btn")));
+		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id(NEW_RECORD_BTN)));
 		ele.click();
 
 		// Wait until the modal has loaded
-		new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
+		new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOfElementLocated(By.id(NEW_SUBMIT_BTN)));
 
 		// Select and enter the values
 		ele = driver.findElement(By.id("new-champion-selection"));
@@ -202,7 +214,7 @@ public class FrontendUseCaseTest {
 		ele.sendKeys(win);
 
 		// Submit the details
-		driver.findElement(By.id("new-submit-btn")).click();
+		driver.findElement(By.id(NEW_SUBMIT_BTN)).click();
 
 		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
 				.until(ExpectedConditions.alertIsPresent());
@@ -230,24 +242,24 @@ public class FrontendUseCaseTest {
 	@Test
 	public void useCase08() {// create a new game mode
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[6]")).click();
-		assertEquals(ROOT_LOCATION + "gamemodes.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + GAMEMODES, driver.getCurrentUrl());
 
 		WebElement ele;
 		String newModeName = "Assault";
 
 		// Wait until the page has loaded
-		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id("new-btn")));
+		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id(NEW_RECORD_BTN)));
 		ele.click();
 
 		// Wait until the modal has loaded
-		new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
+		new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOfElementLocated(By.id(NEW_SUBMIT_BTN)));
 
 		// Select and enter the values
 		ele = driver.findElement(By.id("new-gamemode-name"));
 		ele.sendKeys(newModeName);
 
 		// Submit the details
-		driver.findElement(By.id("new-submit-btn")).click();
+		driver.findElement(By.id(NEW_SUBMIT_BTN)).click();
 
 		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
 				.until(ExpectedConditions.alertIsPresent());
@@ -265,7 +277,7 @@ public class FrontendUseCaseTest {
 	@Test
 	public void useCase09() { // Update a characters details when they are changed
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[2]")).click();
-		assertEquals(ROOT_LOCATION + "champions.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + CHAMPIONS, driver.getCurrentUrl());
 
 		WebElement ele;
 		String pantheon = "Polynesian";
@@ -309,7 +321,7 @@ public class FrontendUseCaseTest {
 		ele.clear();
 		ele.sendKeys(damage);
 
-		driver.findElement(By.id("submit-btn")).click();
+		driver.findElement(By.id(UPDATE_SUBMIT_BTN)).click();
 
 		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
 				.until(ExpectedConditions.alertIsPresent());
@@ -346,7 +358,7 @@ public class FrontendUseCaseTest {
 	@Test
 	public void useCase11() { // Delete a character and their stats from the database
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[3]")).click();
-		assertEquals(ROOT_LOCATION + "stats.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + STATS, driver.getCurrentUrl());
 
 		WebElement ele = null;
 
@@ -363,7 +375,7 @@ public class FrontendUseCaseTest {
 		}
 
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[2]")).click();
-		assertEquals(ROOT_LOCATION + "champions.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + CHAMPIONS, driver.getCurrentUrl());
 
 		// Get the champion
 		ele = (new WebDriverWait(driver, 15)).until(
@@ -381,12 +393,12 @@ public class FrontendUseCaseTest {
 	@Test
 	public void useCase10() { // Create a new pantheon
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[5]")).click();
-		assertEquals(ROOT_LOCATION + "pantheons.html", driver.getCurrentUrl());
+		assertEquals(ROOT_LOCATION + PANTHEONS, driver.getCurrentUrl());
 
 		WebElement ele;
 		String name = "myPantheon";
 
-		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id("new-btn")));
+		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id(NEW_RECORD_BTN)));
 		ele.click();
 
 		// Wait until the modal has loaded
@@ -397,7 +409,7 @@ public class FrontendUseCaseTest {
 		ele.sendKeys(name);
 
 		// Submit the details
-		driver.findElement(By.id("new-submit-btn")).click();
+		driver.findElement(By.id(NEW_SUBMIT_BTN)).click();
 
 		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
 				.until(ExpectedConditions.alertIsPresent());
@@ -435,8 +447,6 @@ public class FrontendUseCaseTest {
 
 		// The edit button for the first record generated by the js
 		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id("1")));
-
-		System.out.println(driver.getCurrentUrl());
 		assertEquals(true, ele.getText().contains("Edit"));
 	}
 }
