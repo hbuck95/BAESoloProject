@@ -2,7 +2,7 @@ package com.bae.tests.frontend;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -101,7 +101,7 @@ public class FrontendUseCaseTest {
 		ele.click();
 
 		// Wait until the modal has loaded
-		ele = (new WebDriverWait(driver, 15))
+		new WebDriverWait(driver, 15)
 				.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
 
 		// Send the values for the new champion
@@ -148,7 +148,7 @@ public class FrontendUseCaseTest {
 		driver.switchTo().alert().accept();
 
 		// Wait for the element to load
-		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.visibilityOfElementLocated(By.id("104")));
+		new WebDriverWait(driver, 15)).until(ExpectedConditions.visibilityOfElementLocated(By.id("104"));
 
 		// Check that it was created correctly
 		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[104]/td[2]"));
@@ -182,8 +182,7 @@ public class FrontendUseCaseTest {
 		ele.click();
 
 		// Wait until the modal has loaded
-		ele = (new WebDriverWait(driver, 15))
-				.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
+		new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
 
 		// Select and enter the values
 		ele = driver.findElement(By.id("new-champion-selection"));
@@ -242,8 +241,7 @@ public class FrontendUseCaseTest {
 		ele.click();
 
 		// Wait until the modal has loaded
-		ele = (new WebDriverWait(driver, 15))
-				.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
+		new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOfElementLocated(By.id("new-submit-btn")));
 
 		// Select and enter the values
 		ele = driver.findElement(By.id("new-gamemode-name"));
@@ -277,22 +275,22 @@ public class FrontendUseCaseTest {
 		String hp = "320";
 		String damage = "39";
 
-		List<WebElement> eles = (new WebDriverWait(driver, 15))
-				.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@id=\"96\"]")));
-		eles.get(1).click();
-		System.out.println(eles.get(1).getText());
+		ele = (new WebDriverWait(driver, 15))
+				.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"96\"]")));
+		ele.click();
 
 		// Select and enter the values
 		// Wait until the modal has loaded
-		ele = (new WebDriverWait(driver, 15))
+		new WebDriverWait(driver, 15)
 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"submit-btn\"]")));
 
+		// Allow the dropdown selectors to populate
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+
 		ele = driver.findElement(By.id("role-selection"));
+
 		Select selector = new Select(ele);
 		selector.selectByVisibleText(role);
-		// System.out.println(selector.getAllSelectedOptions());
-		// selector.getAllSelectedOptions().forEach(System.out::println);
-		// selector.selectByIndex(3);
 
 		// Select and enter the values
 		ele = driver.findElement(By.id("pantheon-selection"));
@@ -343,6 +341,11 @@ public class FrontendUseCaseTest {
 
 		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[96]/td[7]"));
 		assertEquals(damage, ele.getText());
+
+	}
+
+	@Test
+	public void useCase10() { // Delete a character and their stats from the database
 
 	}
 
