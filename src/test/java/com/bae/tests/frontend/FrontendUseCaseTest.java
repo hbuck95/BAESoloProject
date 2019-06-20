@@ -343,7 +343,7 @@ public class FrontendUseCaseTest {
 	}
 
 	@Test
-	public void useCase10() { // Delete a character and their stats from the database
+	public void useCase11() { // Delete a character and their stats from the database
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[3]")).click();
 		assertEquals(ROOT_LOCATION + "stats.html", driver.getCurrentUrl());
 
@@ -355,7 +355,7 @@ public class FrontendUseCaseTest {
 			ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions
 					.presenceOfElementLocated(By.xpath("//*[@id=\"tbl\"]/tbody/tr[1]/td[7]/button[2]")));
 			ele.click();
-			deleteRecord();
+			waitAndConfirmAlert();
 			// Confirm that the alert message is success
 			assertEquals("The specified stats have successfully been deleted", driver.switchTo().alert().getText());
 			driver.switchTo().alert().accept();
@@ -370,15 +370,48 @@ public class FrontendUseCaseTest {
 		ele.click();
 
 		// Delete them
-		deleteRecord();
+		waitAndConfirmAlert();
 
 		// Confirm the delete message
 		assertEquals("The specified champion has successfully been deleted", driver.switchTo().alert().getText());
 		driver.switchTo().alert().accept();// confirm
+	}
+
+	@Test
+	public void useCase10() { // Create a new pantheon
+		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[5]")).click();
+		assertEquals(ROOT_LOCATION + "pantheons.html", driver.getCurrentUrl());
+
+		WebElement ele;
+		String name = "myPantheon";
+
+		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id("new-btn")));
+		ele.click();
+
+		// Wait until the modal has loaded
+		ele = new WebDriverWait(driver, 15)
+				.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-pantheon-name")));
+
+		// enter the values
+		ele.sendKeys(name);
+
+		// Submit the details
+		driver.findElement(By.id("new-submit-btn")).click();
+
+		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
+				.until(ExpectedConditions.alertIsPresent());
+
+		assertEquals("Pantheon successfully created!", driver.switchTo().alert().getText());
+		driver.switchTo().alert().accept();
+
+		// Confirm that the details were successfully created
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[14]/td[2]"));
+		assertEquals(name, ele.getText());
 
 	}
 
-	public void deleteRecord() {
+	// Method for waiting and confirming
+	private void waitAndConfirmAlert() {
 		// Wait until the confirmation alert shows up
 		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
 				.until(ExpectedConditions.alertIsPresent());
@@ -390,7 +423,7 @@ public class FrontendUseCaseTest {
 				.until(ExpectedConditions.alertIsPresent());
 	}
 
-	public void body() {
+	private void body() {
 
 		// The rendered table body.
 		// This isn't present until the js generates and populate the table
