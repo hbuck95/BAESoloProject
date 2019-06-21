@@ -6,17 +6,12 @@ pipeline{
                                 sh "mvn clean"
                         }
                 }
-                stage('--test--'){
-                        steps{
-                                sh "mvn test"
-                        }
-                }
-				stage('--webapp--'){
+				stage('--bundle webapp--'){
 						steps{
 								sh "sudo cp -r /home/h_a_buck_1995/BAESoloProjectFrontEnd/* /var/lib/jenkins/workspace/${JOB_NAME}/src/main/webapp"
 						}
 				}
-				stage('--package--'){
+				stage('--test and package--'){
                         steps{
                                 sh "mvn package"
                         }
