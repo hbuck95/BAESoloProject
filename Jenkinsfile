@@ -6,14 +6,19 @@ pipeline{
                                 sh "mvn clean"
                         }
                 }
-				stage('--bundle webapp--'){
+                stage('--test--'){
+                        steps{
+                                sh "mvn test"
+                        }
+                }
+				stage('--webapp--'){
 						steps{
 								sh "sudo cp -r /home/h_a_buck_1995/BAESoloProjectFrontEnd/* /var/lib/jenkins/workspace/${JOB_NAME}/src/main/webapp"
 						}
 				}
-				stage('--test and package--'){
+				stage('--package--'){
                         steps{
-                                sh "mvn package"
+                                sh "mvn -Dmaven.test.skip=true package"
                         }
                 }
 				stage('--sonar--'){
