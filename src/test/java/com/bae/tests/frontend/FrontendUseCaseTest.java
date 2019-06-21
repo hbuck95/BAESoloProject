@@ -35,14 +35,12 @@ public class FrontendUseCaseTest {
 
 	@BeforeClass
 	public static void setup() {
-		// System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
-		System.setProperty("webdriver.chrome.driver", "C:/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver"); // Linux
+		//System.setProperty("webdriver.chrome.driver", "C:/chromedriver.exe"); // Windows
 
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("headless");
-
 		options.addArguments("window-size=1200x600");
-//        chromeOptions.addArguments("window-size=1400,2100"); // linux should be activate
 
 		driver = new ChromeDriver(options);
 	}
@@ -356,6 +354,39 @@ public class FrontendUseCaseTest {
 	}
 
 	@Test
+	public void useCase10() { // Create a new pantheon
+		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[5]")).click();
+		assertEquals(ROOT_LOCATION + PANTHEONS, driver.getCurrentUrl());
+
+		WebElement ele;
+		String name = "myPantheon";
+
+		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id(NEW_RECORD_BTN)));
+		ele.click();
+
+		// Wait until the modal has loaded
+		ele = new WebDriverWait(driver, 15)
+				.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-pantheon-name")));
+
+		// enter the values
+		ele.sendKeys(name);
+
+		// Submit the details
+		driver.findElement(By.id(NEW_SUBMIT_BTN)).click();
+
+		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
+				.until(ExpectedConditions.alertIsPresent());
+
+		assertEquals("Pantheon successfully created!", driver.switchTo().alert().getText());
+		driver.switchTo().alert().accept();
+
+		// Confirm that the details were successfully created
+		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[14]/td[2]"));
+		assertEquals(name, ele.getText());
+
+	}
+
+	@Test
 	public void useCase11() { // Delete a character and their stats from the database
 		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[3]")).click();
 		assertEquals(ROOT_LOCATION + STATS, driver.getCurrentUrl());
@@ -388,39 +419,6 @@ public class FrontendUseCaseTest {
 		// Confirm the delete message
 		assertEquals("The specified champion has successfully been deleted", driver.switchTo().alert().getText());
 		driver.switchTo().alert().accept();// confirm
-	}
-
-	@Test
-	public void useCase10() { // Create a new pantheon
-		driver.findElement(By.xpath("//*[@id=\"navbarNavAltMarkup\"]/div/a[5]")).click();
-		assertEquals(ROOT_LOCATION + PANTHEONS, driver.getCurrentUrl());
-
-		WebElement ele;
-		String name = "myPantheon";
-
-		ele = (new WebDriverWait(driver, 15)).until(ExpectedConditions.presenceOfElementLocated(By.id(NEW_RECORD_BTN)));
-		ele.click();
-
-		// Wait until the modal has loaded
-		ele = new WebDriverWait(driver, 15)
-				.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-pantheon-name")));
-
-		// enter the values
-		ele.sendKeys(name);
-
-		// Submit the details
-		driver.findElement(By.id(NEW_SUBMIT_BTN)).click();
-
-		new WebDriverWait(driver, 60).ignoring(NoAlertPresentException.class)
-				.until(ExpectedConditions.alertIsPresent());
-
-		assertEquals("Pantheon successfully created!", driver.switchTo().alert().getText());
-		driver.switchTo().alert().accept();
-
-		// Confirm that the details were successfully created
-		ele = driver.findElement(By.xpath("//*[@id=\"tbl\"]/tbody/tr[14]/td[2]"));
-		assertEquals(name, ele.getText());
-
 	}
 
 	// Method for waiting and confirming
