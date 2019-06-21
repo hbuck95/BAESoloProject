@@ -28,7 +28,7 @@ pipeline{
                 }
 				stage('--verify--'){
                         steps{
-                                sh "mvn verify"
+                                sh "mvn -Dmaven.test.skip=true verify"
                         }
                 }
 				stage('--surefire--'){
