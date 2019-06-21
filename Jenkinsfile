@@ -39,7 +39,7 @@ pipeline{
                 }
 		stage('--deploy--'){
                         steps{
-				sh "sudo cp -r /var/lib/jenkins/workspace/${JOBNAME}/target/*.war /var/lib/wildfly-10.1.0.Final/standalone/deployments/"
+				sh "sudo cp -r /var/lib/jenkins/workspace/${JOBNAME}/target/BAESoloProject.war /var/lib/wildfly-10.1.0.Final/standalone/deployments/"
                         }
                 }
         }
